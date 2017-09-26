@@ -26,14 +26,11 @@ public class ReloadRepositoryController {
         ArrayList<URL> urls = new ArrayList<>();
         try {
             URL repositoryList = new URL("https://raw.githubusercontent.com/ShookTea/StRepository/master/repository.txt");
-            InputStream is = repositoryList.openStream();
-            Scanner sc = new Scanner(is);
-            while (sc.hasNextLine()) {
-                String line = sc.nextLine().trim();
+            String[] repo = loadFile(repositoryList).split("\n");
+            for (String line : repo) {
+                line = line.trim();
                 if (!line.startsWith("#")) urls.add(new URL(line));
             }
-            sc.close();
-            is.close();
         } catch (IOException e) {
             e.printStackTrace();
             stageToDispose.close();
