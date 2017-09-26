@@ -4,7 +4,6 @@ import javafx.beans.binding.When;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.*;
 import javafx.scene.control.*;
