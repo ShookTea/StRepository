@@ -2,9 +2,12 @@ package st.repo;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Start extends Application {
     @Override
@@ -29,5 +32,13 @@ public class Start extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public static void showDialog(Scene sc, String title) {
+        Stage dialog = new Stage();
+        dialog.initStyle(StageStyle.UTILITY);
+        dialog.setScene(sc);
+        dialog.setTitle(title);
+        dialog.show();
     }
 }
