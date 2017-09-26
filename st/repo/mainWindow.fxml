@@ -54,7 +54,7 @@
                         <Font name="System Bold" size="25.0" />
                      </font>
                   </Label>
-                  <ToolBar prefHeight="40.0" prefWidth="200.0">
+                  <ToolBar fx:id="appToolbar" prefHeight="40.0" prefWidth="200.0">
                     <items>
                         <Button defaultButton="true" mnemonicParsing="false" onAction="#runApp" text="Uruchom" />
                       <Button mnemonicParsing="false" onAction="#downloadApp" text="Pobierz" />

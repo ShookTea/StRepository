@@ -1,9 +1,13 @@
 package st.repo;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ToolBar;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
@@ -15,11 +19,21 @@ public class MainWindowController {
     @FXML private FlowPane appAuthorFlowPane;
     @FXML private Label appDescription;
     @FXML private FlowPane appLinksFlowPane;
+    @FXML private ToolBar appToolbar;
 
     private Stage stage;
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    @FXML
+    private void initialize() {
+        ObservableList<Node> buttons = appToolbar.getItems();
+        for (Node n : buttons) {
+            Button button = (Button)n;
+            button.prefWidthProperty().bind(appToolbar.widthProperty().divide(appToolbar.getItems().size()).subtract(10));
+        }
     }
 
     @FXML
