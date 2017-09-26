@@ -4,14 +4,21 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class MainWindowController {
 
     @FXML private ListView<Application> appList;
     @FXML private SplitPane splitPane;
     @FXML private AppInfoController appInfoPanelController;
+    @FXML private VBox root;
 
     private Stage stage;
 
@@ -23,6 +30,7 @@ public class MainWindowController {
 
     @FXML
     private void initialize() {
+        updateRepository();
         setDividerPosition();
         bindAppList();
     }
@@ -70,6 +78,17 @@ public class MainWindowController {
 
     @FXML
     private void updateRepository() {
-
+        root.setDisable(true);
+        try {
+            FXMLLoader loader = new FXMLLoader(ReloadRepositoryController.class.getResource("reloadRepository.fxml"));
+            BorderPane pane = loader.load();
+            ReloadRepositoryController contr = loader.getController();
+            Scene scene = new Scene(pane);
+            Stage stg = Start.showDialog(scene, "Wczytywanie repozytorium...");
+            contr.reloadRepository(stg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        root.setDisable(false);
     }
 }

@@ -32,11 +32,12 @@ public class Start extends Application {
         launch(args);
     }
 
-    public static void showDialog(Scene sc, String title) {
+    public static Stage showDialog(Scene sc, String title) {
         Stage dialog = new Stage();
         dialog.initStyle(StageStyle.UTILITY);
         dialog.setScene(sc);
         dialog.setTitle(title);
         dialog.show();
+        return dialog;
     }
 }
