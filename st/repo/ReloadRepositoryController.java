@@ -70,9 +70,12 @@ public class ReloadRepositoryController {
             e.printStackTrace();
             return null;
         }
-        
 
-        return new Application(url.getPath(), false, false, "1.0", "opis");
+        String name = (String)root.get("name");
+        String newestVersion = (String)root.get("version");
+        String description = (String)root.get("description");
+
+        return new Application(name, false, false, newestVersion, description);
     }
 
     private String loadFile(URL url) throws IOException {

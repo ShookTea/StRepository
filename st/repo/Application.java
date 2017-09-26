@@ -30,6 +30,10 @@ public class Application {
         this.links = FXCollections.observableArrayList(links);
     }
 
+    public Application(String title, boolean isDownloaded, boolean canBeUpdated, String installedVersion, String newestVersion, String description, List<Link> authors, List<Link> links) {
+        this(title, isDownloaded, canBeUpdated, false, installedVersion, newestVersion, description, authors, links);
+    }
+
     public Application(String title, boolean isDownloaded, boolean canBeUpdated, String installedVersion, String description) {
         this(title, isDownloaded, canBeUpdated, false, installedVersion, installedVersion, description, new ArrayList<>(), new ArrayList<>());
     }
