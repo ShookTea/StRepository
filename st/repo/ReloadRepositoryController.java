@@ -5,6 +5,9 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.ProgressIndicator;
 import javafx.stage.Stage;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,11 +21,8 @@ public class ReloadRepositoryController {
 
     @FXML
     private ProgressIndicator progress;
-    private Stage stageToDispose;
 
     public void reloadRepository(Stage stageToDispose) {
-        this.stageToDispose = stageToDispose;
-
         DoubleProperty currentProgress = new SimpleDoubleProperty(-1.0);
         progress.progressProperty().bind(currentProgress);
 
@@ -59,10 +59,19 @@ public class ReloadRepositoryController {
             jsonFile = loadFile(url);
         } catch (IOException e) {
             e.printStackTrace();
-            stageToDispose.close();
+            return null;
+        }
+
+        JSONParser parser = new JSONParser();
+        JSONObject root;
+        try {
+            root = (JSONObject)parser.parse(jsonFile);
+        } catch (ParseException e) {
+            e.printStackTrace();
             return null;
         }
         
+
         return new Application(url.getPath(), false, false, "1.0", "opis");
     }
 
