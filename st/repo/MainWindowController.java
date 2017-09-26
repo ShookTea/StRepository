@@ -101,11 +101,16 @@ public class MainWindowController {
                         .then(currentApp.get().installedVersion)
                         .otherwise(currentApp.get().newestVersion)));
         appDescription.textProperty().bind(currentApp.get().description);
+
         runAppButton.disableProperty().bind(currentApp.get().isLocked.or(currentApp.get().isDownloaded.not()));
         downloadAppButton.disableProperty().bind(currentApp.get().isLocked.or(currentApp.get().isDownloaded));
         updateAppButton.disableProperty().bind(currentApp.get().isLocked.or(currentApp.get().canBeUpdated.not()).or(currentApp.get().isDownloaded.not()));
         removeAppButton.disableProperty().bind(currentApp.get().isLocked.or(currentApp.get().isDownloaded.not()));
         showChangelogButton.disableProperty().bind(currentApp.get().isLocked);
+
+        runAppButton.defaultButtonProperty().bind(currentApp.get().isDownloaded.and(currentApp.get().canBeUpdated.not()));
+        downloadAppButton.defaultButtonProperty().bind(currentApp.get().isDownloaded.not());
+        updateAppButton.defaultButtonProperty().bind(currentApp.get().isDownloaded.and(currentApp.get().canBeUpdated));
     }
 
     @FXML
