@@ -1,9 +1,6 @@
 package st.repo;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -33,5 +30,22 @@ public class Application {
         this.links = FXCollections.observableArrayList(links);
     }
 
+    public Application(String title, boolean isDownloaded, boolean canBeUpdated, String installedVersion, String description) {
+        this(title, isDownloaded, canBeUpdated, false, installedVersion, installedVersion, description, new ArrayList<>(), new ArrayList<>());
+    }
+
     public static final Application NULL_APP = new Application("", false, false, true, "", "", "", new ArrayList<>(), new ArrayList<>());
+    private static ListProperty<Application> list;
+
+    public static ListProperty<Application> getAppsList() {
+        if (list == null) {
+            ObservableList<Application> apps = FXCollections.observableArrayList();
+            apps.add(new Application("Test 1", false, false, "1.1", "Program nie został jeszcze pobrany"));
+            apps.add(new Application("Test 2", true, false, "1.2", "Program został pobrany, nie wymaga aktualizacji"));
+            apps.add(new Application("Test 3", true, true, "1.3", "Program został pobrany oraz wymaga aktualizacji"));
+            apps.add(new Application("Test 4", false, true, "1.4", "Program nie został pobranym ale wymaga aktualizacji"));
+            list = new SimpleListProperty<>(apps);
+        }
+        return list;
+    }
 }

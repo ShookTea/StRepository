@@ -1,6 +1,9 @@
 package st.repo;
 
+import javafx.beans.binding.When;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
@@ -13,7 +16,7 @@ import javafx.stage.Stage;
 
 public class MainWindowController {
 
-    @FXML private ListView<?> appList;
+    @FXML private ListView<Application> appList;
     @FXML private Label appTitle;
     @FXML private Label appVersion;
     @FXML private FlowPane appAuthorFlowPane;
@@ -24,6 +27,7 @@ public class MainWindowController {
 
     private Stage stage;
     private ObjectProperty<Application> currentApp = new SimpleObjectProperty<>(Application.NULL_APP);
+    private ListProperty<Application> appListProperty = new SimpleListProperty<>();
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -33,6 +37,21 @@ public class MainWindowController {
     private void initialize() {
         setDividerPosition();
         bindToolbarButtonsWidth();
+        bindAppView();
+
+        appListProperty.bind(Application.getAppsList());
+        appList.setCellFactory(list -> new ListCell<Application>(){
+            @Override
+            public void updateItem(Application app, boolean empty) {
+                super.updateItem(app, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(app.title.getValue());
+                }
+            }
+        });
+        appList.setItems(appListProperty);
     }
 
     private void setDividerPosition() {
@@ -49,6 +68,15 @@ public class MainWindowController {
             Button button = (Button)n;
             button.prefWidthProperty().bind(appToolbar.widthProperty().divide(appToolbar.getItems().size()).subtract(10));
         }
+    }
+
+    private void bindAppView() {
+        appTitle.textProperty().bind(currentApp.get().title);
+        appVersion.textProperty().bind(
+                new When(currentApp.get().canBeUpdated)
+                .then(currentApp.get().installedVersion.concat(" (najnowsza wersja: ").concat(currentApp.get().newestVersion).concat(")"))
+                .otherwise(currentApp.get().installedVersion));
+        appDescription.textProperty().bind(currentApp.get().description);
     }
 
     @FXML
