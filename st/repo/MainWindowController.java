@@ -24,6 +24,11 @@ public class MainWindowController {
     @FXML private FlowPane appLinksFlowPane;
     @FXML private ToolBar appToolbar;
     @FXML private SplitPane splitPane;
+    @FXML private Button runAppButton;
+    @FXML private Button downloadAppButton;
+    @FXML private Button updateAppButton;
+    @FXML private Button removeAppButton;
+    @FXML private Button showChangelogButton;
 
     private Stage stage;
     private ObjectProperty<Application> currentApp = new SimpleObjectProperty<>(Application.NULL_APP);
@@ -93,6 +98,11 @@ public class MainWindowController {
                 .then(currentApp.get().installedVersion.concat(" (najnowsza wersja: ").concat(currentApp.get().newestVersion).concat(")"))
                 .otherwise(currentApp.get().installedVersion));
         appDescription.textProperty().bind(currentApp.get().description);
+        runAppButton.disableProperty().bind(currentApp.get().isLocked.or(currentApp.get().isDownloaded.not()));
+        downloadAppButton.disableProperty().bind(currentApp.get().isLocked.or(currentApp.get().isDownloaded));
+        updateAppButton.disableProperty().bind(currentApp.get().isLocked.or(currentApp.get().canBeUpdated.not()).or(currentApp.get().isDownloaded.not()));
+        removeAppButton.disableProperty().bind(currentApp.get().isLocked.or(currentApp.get().isDownloaded.not()));
+        showChangelogButton.disableProperty().bind(currentApp.get().isLocked);
     }
 
     @FXML

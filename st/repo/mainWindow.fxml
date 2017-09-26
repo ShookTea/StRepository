@@ -56,11 +56,11 @@
                   </Label>
                   <ToolBar fx:id="appToolbar" prefHeight="40.0" prefWidth="200.0">
                     <items>
-                        <Button defaultButton="true" mnemonicParsing="false" onAction="#runApp" text="Uruchom" />
-                      <Button mnemonicParsing="false" onAction="#downloadApp" text="Pobierz" />
-                        <Button mnemonicParsing="false" onAction="#updateApp" text="Aktualizuj" />
-                        <Button mnemonicParsing="false" onAction="#removeApp" text="Usuń" />
-                        <Button mnemonicParsing="false" onAction="#showChangelog" text="Historia wersji" />
+                        <Button fx:id="runAppButton" defaultButton="true" mnemonicParsing="false" onAction="#runApp" text="Uruchom" />
+                      <Button fx:id="downloadAppButton" mnemonicParsing="false" onAction="#downloadApp" text="Pobierz" />
+                        <Button fx:id="updateAppButton" mnemonicParsing="false" onAction="#updateApp" text="Aktualizuj" />
+                        <Button fx:id="removeAppButton" mnemonicParsing="false" onAction="#removeApp" text="Usuń" />
+                        <Button fx:id="showChangelogButton" mnemonicParsing="false" onAction="#showChangelog" text="Historia wersji" />
                     </items>
                   </ToolBar>
                   <ScrollPane hbarPolicy="NEVER" VBox.vgrow="ALWAYS">
