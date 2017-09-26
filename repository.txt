@@ -2,3 +2,6 @@
 # Każdy plik musi znajdować się w oddzielnej linijce.
 # Linie rozpoczynające się znakiem # to komentarze.
 # Puste linie i spacje przed/po linku są ignorowane.
+# ================================================================================
+# Repozytorium testowe
+https://raw.githubusercontent.com/ShookTea/StRepository/master/test.json
