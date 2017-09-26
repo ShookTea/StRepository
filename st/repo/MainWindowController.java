@@ -9,10 +9,14 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.util.stream.Collectors;
 
@@ -120,9 +124,12 @@ public class MainWindowController {
 
     private void createLinksList(FlowPane fp, ObservableList<Link> links) {
         fp.getChildren().clear();
-        fp.getChildren().addAll(links.stream().map(e -> {
-            Hyperlink link = new Hyperlink(e.title);
-            return link;
+        fp.getChildren().addAll(links.stream().map(link -> {
+            Hyperlink hyperlink = new Hyperlink(link.title);
+            hyperlink.setOnAction(actionEvent -> {
+                openWebPage(link.title, link.link);
+            });
+            return hyperlink;
         }).collect(Collectors.toList()));
     }
 
@@ -164,5 +171,18 @@ public class MainWindowController {
     @FXML
     private void runApp(ActionEvent actionEvent) {
 
+    }
+
+    private void openWebPage(String title, String address) {
+        Stage dialog = new Stage();
+        dialog.initStyle(StageStyle.UTILITY);
+        WebView wv = new WebView();
+        wv.getEngine().load(address);
+        Scene scene = new Scene(new Group(wv));
+        wv.prefWidthProperty().bind(scene.widthProperty());
+        wv.prefHeightProperty().bind(scene.heightProperty());
+        dialog.setScene(scene);
+        dialog.setTitle(title);
+        dialog.show();
     }
 }
