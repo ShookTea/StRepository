@@ -5,59 +5,55 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.Stage;
 
 public class MainWindowController {
 
-    @FXML
-    private ListView<?> appList;
+    @FXML private ListView<?> appList;
+    @FXML private Label appTitle;
+    @FXML private Label appVersion;
+    @FXML private FlowPane appAuthorFlowPane;
+    @FXML private Label appDescription;
+    @FXML private FlowPane appLinksFlowPane;
+
+    private Stage stage;
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
     @FXML
-    private Label appTitle;
-
-    @FXML
-    private Label appVersion;
-
-    @FXML
-    private FlowPane appAuthorFlowPane;
-
-    @FXML
-    private Label appDescription;
-
-    @FXML
-    private FlowPane appLinksFlowPane;
-
-    @FXML
-    void close(ActionEvent event) {
+    private void close(ActionEvent event) {
 
     }
 
     @FXML
-    void downloadApp(ActionEvent event) {
+    private void downloadApp(ActionEvent event) {
 
     }
 
     @FXML
-    void removeApp(ActionEvent event) {
+    private void removeApp(ActionEvent event) {
 
     }
 
     @FXML
-    void showAbout(ActionEvent event) {
+    private void showAbout(ActionEvent event) {
 
     }
 
     @FXML
-    void showChangelog(ActionEvent event) {
+    private void showChangelog(ActionEvent event) {
 
     }
 
     @FXML
-    void updateApp(ActionEvent event) {
+    private void updateApp(ActionEvent event) {
 
     }
 
     @FXML
-    void updateRepository(ActionEvent event) {
+    private void updateRepository(ActionEvent event) {
 
     }
 
