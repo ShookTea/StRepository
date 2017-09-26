@@ -94,9 +94,12 @@ public class MainWindowController {
     private void bindAppView() {
         appTitle.textProperty().bind(currentApp.get().title);
         appVersion.textProperty().bind(
-                new When(currentApp.get().canBeUpdated)
+                new When(currentApp.get().canBeUpdated.and(currentApp.get().isDownloaded))
                 .then(currentApp.get().installedVersion.concat(" (najnowsza wersja: ").concat(currentApp.get().newestVersion).concat(")"))
-                .otherwise(currentApp.get().installedVersion));
+                .otherwise(
+                        new When(currentApp.get().isDownloaded)
+                        .then(currentApp.get().installedVersion)
+                        .otherwise(currentApp.get().newestVersion)));
         appDescription.textProperty().bind(currentApp.get().description);
         runAppButton.disableProperty().bind(currentApp.get().isLocked.or(currentApp.get().isDownloaded.not()));
         downloadAppButton.disableProperty().bind(currentApp.get().isLocked.or(currentApp.get().isDownloaded));
