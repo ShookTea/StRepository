@@ -59,18 +59,18 @@ public class MainWindowController {
     }
 
     @FXML
-    private void close(ActionEvent event) {
+    private void close() {
         stage.close();
         System.exit(0);
     }
 
     @FXML
-    private void showAbout(ActionEvent event) {
+    private void showAbout() {
 
     }
 
     @FXML
-    private void updateRepository(ActionEvent event) {
+    private void updateRepository() {
 
     }
 }

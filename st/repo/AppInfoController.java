@@ -96,27 +96,27 @@ public class AppInfoController {
     }
 
     @FXML
-    private void downloadApp(ActionEvent event) {
+    private void downloadApp() {
 
     }
 
     @FXML
-    private void removeApp(ActionEvent event) {
+    private void removeApp() {
 
     }
 
     @FXML
-    private void runApp(ActionEvent event) {
+    private void runApp() {
 
     }
 
     @FXML
-    private void showChangelog(ActionEvent event) {
+    private void showChangelog() {
 
     }
 
     @FXML
-    private void updateApp(ActionEvent event) {
+    private void updateApp() {
 
     }
 }
