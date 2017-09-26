@@ -6,17 +6,10 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.ToolBar;
+import javafx.scene.*;
+import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.web.WebView;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.util.stream.Collectors;
 
@@ -88,9 +81,7 @@ public class AppInfoController {
         fp.getChildren().clear();
         fp.getChildren().addAll(links.stream().map(link -> {
             Hyperlink hyperlink = new Hyperlink(link.title);
-            hyperlink.setOnAction(actionEvent -> {
-                openWebPage(link.title, link.link);
-            });
+            hyperlink.setOnAction(actionEvent -> openWebPage(link.title, link.link));
             return hyperlink;
         }).collect(Collectors.toList()));
     }
