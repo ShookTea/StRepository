@@ -39,17 +39,14 @@ public class Application {
     }
 
     public static final Application NULL_APP = new Application("", false, false, true, "", "", "", new ArrayList<>(), new ArrayList<>());
-    private static ListProperty<Application> list;
+    private static ListProperty<Application> list = new SimpleListProperty<>();
 
     public static ListProperty<Application> getAppsList() {
-        if (list == null) {
-            list = new SimpleListProperty<>(FXCollections.observableArrayList());
-        }
         return list;
     }
 
     public static void setAppsList(List<Application> apps) {
         ObservableList<Application> newList = FXCollections.observableArrayList(apps);
-        list = new SimpleListProperty<>(newList);
+        list.setValue(newList);
     }
 }

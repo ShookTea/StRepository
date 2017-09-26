@@ -54,7 +54,7 @@ public class ReloadRepositoryController {
     }
 
     private Application loadApplicationFromURL(URL url) {
-        return new Application();
+        return new Application(url.getPath(), false, false, "1.0", "opis");
     }
 
 }
