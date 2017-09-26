@@ -114,12 +114,16 @@ public class MainWindowController {
         downloadAppButton.defaultButtonProperty().bind(currentApp.get().isDownloaded.not());
         updateAppButton.defaultButtonProperty().bind(currentApp.get().isDownloaded.and(currentApp.get().canBeUpdated));
 
-        appAuthorFlowPane.getChildren().clear();
-        appAuthorFlowPane.getChildren().addAll(currentApp.get().authors.stream().map(e -> {
+        createLinksList(appAuthorFlowPane, currentApp.get().authors);
+        createLinksList(appLinksFlowPane, currentApp.get().links);
+    }
+
+    private void createLinksList(FlowPane fp, ObservableList<Link> links) {
+        fp.getChildren().clear();
+        fp.getChildren().addAll(links.stream().map(e -> {
             Hyperlink link = new Hyperlink(e.title);
             return link;
         }).collect(Collectors.toList()));
-        appLinksFlowPane.getChildren().clear();
     }
 
     @FXML

@@ -46,6 +46,7 @@ public class Application {
             apps.add(new Application("Test 4", false, true, "1.4", "Program nie został pobrany, ale wymaga aktualizacji"));
             Application app5 = new Application("Test 5", false, true, "1.4", "Przykład programu z listą autorów");
             app5.authors.add(new Link("Norbert Kowalik", "http://pag.c0.pl"));
+            app5.links.add(new Link("Google", "http://google.com"));
             apps.add(app5);
             list = new SimpleListProperty<>(apps);
         }
