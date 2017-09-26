@@ -1,5 +1,7 @@
 package st.repo;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +23,7 @@ public class MainWindowController {
     @FXML private SplitPane splitPane;
 
     private Stage stage;
+    private ObjectProperty<Application> currentApp = new SimpleObjectProperty<>(Application.NULL_APP);
 
     public void setStage(Stage stage) {
         this.stage = stage;
