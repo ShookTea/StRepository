@@ -44,7 +44,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <SplitPane dividerPositions="0.3" prefHeight="160.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+      <SplitPane fx:id="splitPane" dividerPositions="0.3" prefHeight="160.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
         <items>
             <ListView fx:id="appList" prefHeight="200.0" prefWidth="200.0" />
             <VBox prefHeight="200.0" prefWidth="100.0">

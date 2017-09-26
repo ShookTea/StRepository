@@ -1,13 +1,11 @@
 package st.repo;
 
+import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ToolBar;
+import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
@@ -20,6 +18,7 @@ public class MainWindowController {
     @FXML private Label appDescription;
     @FXML private FlowPane appLinksFlowPane;
     @FXML private ToolBar appToolbar;
+    @FXML private SplitPane splitPane;
 
     private Stage stage;
 
@@ -29,6 +28,19 @@ public class MainWindowController {
 
     @FXML
     private void initialize() {
+        setDividerPosition();
+        bindToolbarButtonsWidth();
+    }
+
+    private void setDividerPosition() {
+        ChangeListener chl = (object, oldValue, newValue) -> {
+            splitPane.setDividerPositions(0.2);
+        };
+        splitPane.widthProperty().addListener(chl);
+        splitPane.heightProperty().addListener(chl);
+    }
+
+    private void bindToolbarButtonsWidth() {
         ObservableList<Node> buttons = appToolbar.getItems();
         for (Node n : buttons) {
             Button button = (Button)n;
