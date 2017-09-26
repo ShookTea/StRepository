@@ -14,6 +14,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
+import java.util.stream.Collectors;
+
 public class MainWindowController {
 
     @FXML private ListView<Application> appList;
@@ -111,6 +113,13 @@ public class MainWindowController {
         runAppButton.defaultButtonProperty().bind(currentApp.get().isDownloaded.and(currentApp.get().canBeUpdated.not()));
         downloadAppButton.defaultButtonProperty().bind(currentApp.get().isDownloaded.not());
         updateAppButton.defaultButtonProperty().bind(currentApp.get().isDownloaded.and(currentApp.get().canBeUpdated));
+
+        appAuthorFlowPane.getChildren().clear();
+        appAuthorFlowPane.getChildren().addAll(currentApp.get().authors.stream().map(e -> {
+            Hyperlink link = new Hyperlink(e.title);
+            return link;
+        }).collect(Collectors.toList()));
+        appLinksFlowPane.getChildren().clear();
     }
 
     @FXML
