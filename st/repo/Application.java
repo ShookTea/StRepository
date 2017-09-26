@@ -34,22 +34,22 @@ public class Application {
         this(title, isDownloaded, canBeUpdated, false, installedVersion, installedVersion, description, new ArrayList<>(), new ArrayList<>());
     }
 
+    public Application() {
+        this("", false, false, "", "");
+    }
+
     public static final Application NULL_APP = new Application("", false, false, true, "", "", "", new ArrayList<>(), new ArrayList<>());
     private static ListProperty<Application> list;
 
     public static ListProperty<Application> getAppsList() {
         if (list == null) {
-            ObservableList<Application> apps = FXCollections.observableArrayList();
-            apps.add(new Application("Test 1", false, false, "1.1", "Program nie został jeszcze pobrany"));
-            apps.add(new Application("Test 2", true, false, "1.2", "Program został pobrany, nie wymaga aktualizacji"));
-            apps.add(new Application("Test 3", true, true, "1.3", "Program został pobrany oraz wymaga aktualizacji"));
-            apps.add(new Application("Test 4", false, true, "1.4", "Program nie został pobrany, ale wymaga aktualizacji"));
-            Application app5 = new Application("Test 5", false, true, "1.4", "Przykład programu z listą autorów");
-            app5.authors.add(new Link("Norbert Kowalik", "http://pag.c0.pl"));
-            app5.links.add(new Link("Google", "http://google.com"));
-            apps.add(app5);
-            list = new SimpleListProperty<>(apps);
+            list = new SimpleListProperty<>(FXCollections.observableArrayList());
         }
         return list;
+    }
+
+    public static void setAppsList(List<Application> apps) {
+        ObservableList<Application> newList = FXCollections.observableArrayList(apps);
+        list = new SimpleListProperty<>(newList);
     }
 }
