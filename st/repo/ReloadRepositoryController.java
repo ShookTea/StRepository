@@ -49,7 +49,6 @@ public class ReloadRepositoryController {
         currentProgress.set(1.0);
 
         Application.setAppsList(applications);
-
         stageToDispose.close();
     }
 
@@ -57,4 +56,15 @@ public class ReloadRepositoryController {
         return new Application(url.getPath(), false, false, "1.0", "opis");
     }
 
+    private String loadFile(URL url) throws IOException {
+        InputStream is = url.openStream();
+        Scanner sc = new Scanner(is);
+        String file = "";
+        while (sc.hasNextLine()) {
+            file = file + sc.nextLine() + "\n";
+        }
+        sc.close();
+        is.close();
+        return file;
+    }
 }
