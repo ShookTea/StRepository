@@ -18,8 +18,11 @@ public class ReloadRepositoryController {
 
     @FXML
     private ProgressIndicator progress;
+    private Stage stageToDispose;
 
     public void reloadRepository(Stage stageToDispose) {
+        this.stageToDispose = stageToDispose;
+
         DoubleProperty currentProgress = new SimpleDoubleProperty(-1.0);
         progress.progressProperty().bind(currentProgress);
 
@@ -45,11 +48,21 @@ public class ReloadRepositoryController {
         }).collect(Collectors.toList());
         currentProgress.set(1.0);
 
+        applications.removeIf(app -> app == null);
         Application.setAppsList(applications);
         stageToDispose.close();
     }
 
     private Application loadApplicationFromURL(URL url) {
+        String jsonFile = "";
+        try {
+            jsonFile = loadFile(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            stageToDispose.close();
+            return null;
+        }
+        
         return new Application(url.getPath(), false, false, "1.0", "opis");
     }
 
