@@ -136,6 +136,7 @@ public class MainWindowController {
     @FXML
     private void close(ActionEvent event) {
         stage.close();
+        System.exit(0);
     }
 
     @FXML

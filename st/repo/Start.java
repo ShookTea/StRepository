@@ -19,7 +19,12 @@ public class Start extends Application {
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.setTitle("StRepository");
+        primaryStage.setOnCloseRequest(e -> {
+            primaryStage.close();
+            System.exit(0);
+        });
         primaryStage.show();
+
     }
 
     public static void main(String[] args) {
