@@ -24,7 +24,7 @@ public class MainWindowController {
 
     @FXML
     private void close(ActionEvent event) {
-
+        stage.close();
     }
 
     @FXML
@@ -57,4 +57,8 @@ public class MainWindowController {
 
     }
 
+    @FXML
+    private void runApp(ActionEvent actionEvent) {
+
+    }
 }
