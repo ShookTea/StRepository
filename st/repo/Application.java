@@ -43,7 +43,7 @@ public class Application {
             apps.add(new Application("Test 1", false, false, "1.1", "Program nie został jeszcze pobrany"));
             apps.add(new Application("Test 2", true, false, "1.2", "Program został pobrany, nie wymaga aktualizacji"));
             apps.add(new Application("Test 3", true, true, "1.3", "Program został pobrany oraz wymaga aktualizacji"));
-            apps.add(new Application("Test 4", false, true, "1.4", "Program nie został pobranym ale wymaga aktualizacji"));
+            apps.add(new Application("Test 4", false, true, "1.4", "Program nie został pobrany, ale wymaga aktualizacji"));
             list = new SimpleListProperty<>(apps);
         }
         return list;

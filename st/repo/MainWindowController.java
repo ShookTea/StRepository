@@ -38,20 +38,9 @@ public class MainWindowController {
         setDividerPosition();
         bindToolbarButtonsWidth();
         bindAppView();
+        bindAppList();
 
-        appListProperty.bind(Application.getAppsList());
-        appList.setCellFactory(list -> new ListCell<Application>(){
-            @Override
-            public void updateItem(Application app, boolean empty) {
-                super.updateItem(app, empty);
-                if (empty) {
-                    setText(null);
-                } else {
-                    setText(app.title.getValue());
-                }
-            }
-        });
-        appList.setItems(appListProperty);
+
     }
 
     private void setDividerPosition() {
@@ -68,6 +57,33 @@ public class MainWindowController {
             Button button = (Button)n;
             button.prefWidthProperty().bind(appToolbar.widthProperty().divide(appToolbar.getItems().size()).subtract(10));
         }
+    }
+
+    private void bindAppList() {
+        appListProperty.bind(Application.getAppsList());
+        appList.setCellFactory(list -> new ListCell<Application>(){
+            @Override
+            public void updateItem(Application app, boolean empty) {
+                super.updateItem(app, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(app.title.getValue());
+                }
+            }
+        });
+        appList.setItems(appListProperty);
+
+        appList.getSelectionModel().selectedItemProperty().addListener((ob, oldV, newV) -> {
+            Application app = ob.getValue();
+            if (app == null) {
+                currentApp.set(Application.NULL_APP);
+            }
+            else {
+                currentApp.set(app);
+            }
+            bindAppView();
+        });
     }
 
     private void bindAppView() {
