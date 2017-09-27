@@ -1,6 +1,8 @@
 package st.repo;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.StringProperty;
 
 import java.io.File;
@@ -18,6 +20,8 @@ public class InstallationData {
     }
 
     public void startDownloadTo(File folder) {
-        System.out.println("Downloading from " + downloadUrl + " to " + folder);
+        installationPhase.set(0.0);
     }
+
+    public static final DoubleProperty installationPhase = new SimpleDoubleProperty(0.0);
 }

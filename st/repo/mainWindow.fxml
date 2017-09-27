@@ -45,9 +45,9 @@
       </SplitPane>
       <HBox prefHeight="0.0" prefWidth="600.0" VBox.vgrow="NEVER">
          <children>
-            <Label text="Status programu" />
+            <Label fx:id="statusText" text="Status programu" />
             <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <ProgressBar prefWidth="200.0" progress="0.0" />
+            <ProgressBar fx:id="progressBar" prefWidth="200.0" progress="0.0" />
          </children>
       </HBox>
    </children>
