@@ -58,7 +58,6 @@ public class DownloadTask extends Task {
         fos.close();
         rbc.close();
         stream.close();
-        System.out.println("Downloaded to " + jsonFile);
     }
 
     public void init(URL url, File folder) throws IOException {
