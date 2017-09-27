@@ -87,7 +87,7 @@ public class ReloadRepositoryController {
         String[] installationCommands = parseCommands(root.getOrDefault("installation", "").toString());
         InstallationData instData = new InstallationData(downloadPath, newestVersion, installationCommands);
 
-        return new Application(name, newestVersion, newestVersion, description, authorsList, linksList);
+        return new Application(name, newestVersion, description, authorsList, linksList, instData);
     }
 
     private String loadFile(URL url) throws IOException {

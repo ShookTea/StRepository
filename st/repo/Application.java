@@ -15,30 +15,30 @@ public class Application {
     public final BooleanProperty canBeUpdated;
     public final BooleanProperty isLocked;
     public final StringProperty installedVersion;
-    public final StringProperty newestVersion;
     public final StringProperty description;
     public final ObservableList<Link> authors;
     public final ObservableList<Link> links;
 
+    public final InstallationData installationData;
     public final Path installationPath;
 
-    public Application(String title, String installedVersion, String newestVersion, String description, List<Link> authors, List<Link> links) {
+    public Application(String title, String installedVersion, String description, List<Link> authors, List<Link> links, InstallationData instData) {
         this.title = new SimpleStringProperty(title);
         this.installedVersion = new SimpleStringProperty(installedVersion);
-        this.newestVersion = new SimpleStringProperty(newestVersion);
         this.description = new SimpleStringProperty(description);
         this.authors = FXCollections.observableArrayList(authors);
         this.links = FXCollections.observableArrayList(links);
         this.isLocked = new SimpleBooleanProperty(false);
+        this.installationData = instData;
 
         installationPath = Paths.get("apps/" + title).toAbsolutePath();
         isDownloaded = new SimpleBooleanProperty(installationPath.toFile().exists());
         canBeUpdated = new SimpleBooleanProperty();
-        canBeUpdated.bind(isDownloaded.and(this.installedVersion.isNotEqualTo(this.newestVersion)));
+        canBeUpdated.bind(isDownloaded.and(this.installedVersion.isNotEqualTo(this.installationData.newestVersion)));
     }
 
     private Application() {
-        this("", "", "", "", new ArrayList<>(), new ArrayList<>());
+        this("", "", "", new ArrayList<>(), new ArrayList<>(), new InstallationData(null, "", new String[0]));
         this.isLocked.setValue(true);
     }
 

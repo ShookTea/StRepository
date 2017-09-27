@@ -55,11 +55,11 @@ public class AppInfoController {
         appTitle.textProperty().bind(currentApp.get().title);
         appVersion.textProperty().bind(
                 new When(currentApp.get().canBeUpdated.and(currentApp.get().isDownloaded))
-                        .then(currentApp.get().installedVersion.concat(" (najnowsza wersja: ").concat(currentApp.get().newestVersion).concat(")"))
+                        .then(currentApp.get().installedVersion.concat(" (najnowsza wersja: ").concat(currentApp.get().installationData.newestVersion).concat(")"))
                         .otherwise(
                                 new When(currentApp.get().isDownloaded)
                                         .then(currentApp.get().installedVersion)
-                                        .otherwise(currentApp.get().newestVersion)));
+                                        .otherwise(currentApp.get().installationData.newestVersion)));
         appDescription.textProperty().bind(currentApp.get().description);
 
         runAppButton.disableProperty().bind(currentApp.get().isLocked.or(currentApp.get().isDownloaded.not()));
