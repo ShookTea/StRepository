@@ -7,6 +7,7 @@ import javafx.concurrent.Task;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import st.repo.com.Command;
 import st.repo.task.DownloadTask;
 import st.repo.task.RemoveTask;
 
@@ -30,7 +31,7 @@ public class Application {
 
     public final InstallationData installationData;
     public final Path installationPath;
-    private final String runningCommand;
+    private final String[] runningCommand;
 
     public Application(String title, String description, List<Link> authors, List<Link> links, InstallationData instData, String runningCommand) {
         this.title = new SimpleStringProperty(title);
@@ -40,7 +41,7 @@ public class Application {
         this.links = FXCollections.observableArrayList(links);
         this.isLocked = new SimpleBooleanProperty(false);
         this.installationData = instData;
-        this.runningCommand = runningCommand;
+        this.runningCommand = runningCommand.split(";");
 
         installationPath = Paths.get("apps/" + title).toAbsolutePath();
         isDownloaded = new SimpleBooleanProperty();
@@ -75,7 +76,12 @@ public class Application {
     }
 
     public void runApplication() {
-
+        for (String command : runningCommand) {
+            command = command.trim();
+            if (!command.isEmpty()) {
+                Command.runCommand(command, installationPath.toFile());
+            }
+        }
     }
 
     public void updateDownloadedState() {
