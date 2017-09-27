@@ -14,7 +14,7 @@ public class ReloadRepositoryController {
     @FXML
     private ProgressIndicator progress;
 
-    public void reloadRepository(Stage stageToDispose) {
+    public void reloadRepository(Stage stageToDispose, boolean asNewThread) {
         Task<List<Application>> task = new ReloadRepositoryTask();
         task.setOnSucceeded(e -> {
             stageToDispose.close();
@@ -24,6 +24,11 @@ public class ReloadRepositoryController {
             stageToDispose.close();
         });
         progress.progressProperty().bind(task.progressProperty());
-        new Thread(task).start();
+        if (asNewThread) {
+            new Thread(task).start();
+        }
+        else {
+            task.run();
+        }
     }
 }

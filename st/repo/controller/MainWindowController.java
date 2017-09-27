@@ -34,7 +34,7 @@ public class MainWindowController {
 
     @FXML
     private void initialize() {
-        updateRepository();
+        createRepositoryUpdater(false);
         setDividerPosition();
         bindAppList();
         progressBar.prefWidthProperty().bind(root.widthProperty());
@@ -82,6 +82,10 @@ public class MainWindowController {
 
     @FXML
     private void updateRepository() {
+        createRepositoryUpdater(true);
+    }
+
+    private void createRepositoryUpdater(boolean asNewThread) {
         setDisable(true);
         try {
             FXMLLoader loader = new FXMLLoader(Start.class.getResource("reloadRepository.fxml"));
@@ -89,7 +93,7 @@ public class MainWindowController {
             ReloadRepositoryController contr = loader.getController();
             Scene scene = new Scene(pane);
             Stage stg = Start.showDialog(scene, "Wczytywanie repozytorium...");
-            contr.reloadRepository(stg);
+            contr.reloadRepository(stg, asNewThread);
         } catch (IOException e) {
             e.printStackTrace();
         }
