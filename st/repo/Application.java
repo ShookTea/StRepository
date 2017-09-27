@@ -57,7 +57,12 @@ public class Application {
         this.isLocked.setValue(true);
     }
 
-    private void checkInstalledVersion() {
+    public void updateStatus() {
+        checkInstalledVersion();
+        updateDownloadedState();
+    }
+
+    public void checkInstalledVersion() {
         try {
             File installFolder = installationPath.toFile();
             File strepFile = new File(installFolder.getParent(), title.get().replace(" ", "_") + ".strep");
@@ -70,16 +75,16 @@ public class Application {
         }
     }
 
+    public void updateDownloadedState() {
+        isDownloaded.set(installationPath.toFile().exists());
+    }
+
     public Task createDownloadTask() {
         return new DownloadTask(this);
     }
 
     public Task createRemoveTask() {
         return new RemoveTask(this);
-    }
-
-    public void updateDownloadedState() {
-        isDownloaded.set(installationPath.toFile().exists());
     }
 
     public static final Application NULL_APP = new Application();
