@@ -130,7 +130,9 @@ public class AppInfoController {
 
     @FXML
     private void updateApp() {
-
+        Task remove = currentApp.get().createRemoveTask();
+        Task download = currentApp.get().createDownloadTask();
+        runTask(remove, download);
     }
 
     private void runTask(Task... tasks) {
