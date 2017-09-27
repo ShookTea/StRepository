@@ -1,4 +1,4 @@
-package st.repo;
+package st.repo.controller;
 
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -8,9 +8,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import st.repo.Application;
+import st.repo.Start;
 
 import java.io.IOException;
 
@@ -84,7 +85,7 @@ public class MainWindowController {
     private void updateRepository() {
         setDisable(true);
         try {
-            FXMLLoader loader = new FXMLLoader(ReloadRepositoryController.class.getResource("reloadRepository.fxml"));
+            FXMLLoader loader = new FXMLLoader(Start.class.getResource("reloadRepository.fxml"));
             BorderPane pane = loader.load();
             ReloadRepositoryController contr = loader.getController();
             Scene scene = new Scene(pane);

@@ -1,6 +1,7 @@
-package st.repo;
+package st.repo.task;
 
 import javafx.concurrent.Task;
+import st.repo.Application;
 
 import java.io.File;
 import java.io.FileOutputStream;

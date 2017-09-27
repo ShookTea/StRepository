@@ -1,4 +1,4 @@
-package st.repo;
+package st.repo.controller;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -9,6 +9,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import st.repo.Application;
+import st.repo.InstallationData;
+import st.repo.Link;
 
 import java.io.IOException;
 import java.io.InputStream;

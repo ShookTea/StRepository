@@ -1,4 +1,4 @@
-package st.repo;
+package st.repo.controller;
 
 import javafx.beans.binding.When;
 import javafx.beans.property.ObjectProperty;
@@ -10,6 +10,9 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.web.WebView;
+import st.repo.Application;
+import st.repo.Link;
+import st.repo.Start;
 
 import java.util.stream.Collectors;
 
