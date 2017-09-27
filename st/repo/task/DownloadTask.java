@@ -19,6 +19,7 @@ public class DownloadTask extends Task {
     private final URL jsonUrl;
     private final String name;
     private File downloadFile = null;
+    private final String[] commands;
     private long size = 0;
 
     public DownloadTask(Application app) {
@@ -26,6 +27,7 @@ public class DownloadTask extends Task {
         this.downloadUrl = app.installationData.downloadUrl;
         this.jsonUrl = app.installationData.onlineJsonFile;
         this.name = app.title.get();
+        this.commands = app.installationData.installationCommands;
     }
 
     @Override
@@ -41,6 +43,7 @@ public class DownloadTask extends Task {
         updateMessage("Pobieranie pliku " + downloadFile.getName() + " z adresu " + downloadUrl.toString());
         updateProgress(0, size);
         download();
+        install();
         return null;
     }
 
@@ -69,6 +72,12 @@ public class DownloadTask extends Task {
             updateProgress(actualPosition, size);
         }
         closeChannels();
+    }
+
+    private void install() {
+        for (String command : commands) {
+
+        }
     }
 
     private void initChannels(URL src, File dest) throws IOException {
