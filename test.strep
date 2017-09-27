@@ -1,9 +1,9 @@
 {
   "name": "Finanse",
-  "version": "1.11",
+  "version": "1.12",
   "tags": [ "office", "gui" ],
   "download": "https://github.com/ShookTea/Finanse/releases/download/v1.10/Finanse.zip",
-  "installation": "unzip Finanse.zip;java -jar Finanse.jar;remove Finanse.zip",
+  "installation": "unzip Finanse.zip;remove Finanse.zip",
   "description": "https://raw.githubusercontent.com/ShookTea/Finanse/master/src/description.txt",
   "changelog": "https://raw.githubusercontent.com/ShookTea/Finanse/master/src/changelog.strepcl",
   "runCommand": "java -jar Finanse.jar",
