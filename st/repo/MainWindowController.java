@@ -35,7 +35,7 @@ public class MainWindowController {
         updateRepository();
         setDividerPosition();
         bindAppList();
-        progressBar.prefWidthProperty().bind((((HBox)progressBar.getParent()).widthProperty()));
+        progressBar.prefWidthProperty().bind(root.widthProperty());
         appInfoPanelController.setWindowController(this);
     }
 
