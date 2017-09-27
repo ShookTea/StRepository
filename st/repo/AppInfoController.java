@@ -103,20 +103,7 @@ public class AppInfoController {
     @FXML
     private void downloadApp() {
         Task task = currentApp.get().createDownloadTask();
-        task.setOnRunning(e -> {
-            windowController.setDisable(true);
-            windowController.progressBar.progressProperty().bind(task.progressProperty());
-        });
-        task.setOnSucceeded(e -> {
-            windowController.progressBar.progressProperty().unbind();
-            windowController.progressBar.setProgress(0.0);
-            windowController.setDisable(false);
-            currentApp.get().updateDownloadedState();
-        });
-        task.setOnFailed(e -> {
-            System.exit(0);
-        });
-        new Thread(task).start();
+        runTask(task);
     }
 
     @FXML
@@ -137,5 +124,22 @@ public class AppInfoController {
     @FXML
     private void updateApp() {
 
+    }
+
+    private void runTask(Task task) {
+        task.setOnRunning(e -> {
+            windowController.setDisable(true);
+            windowController.progressBar.progressProperty().bind(task.progressProperty());
+        });
+        task.setOnSucceeded(e -> {
+            windowController.progressBar.progressProperty().unbind();
+            windowController.progressBar.setProgress(0.0);
+            windowController.setDisable(false);
+            currentApp.get().updateDownloadedState();
+        });
+        task.setOnFailed(e -> {
+            System.exit(0);
+        });
+        new Thread(task).start();
     }
 }
