@@ -19,6 +19,7 @@ public class MainWindowController {
 
     @FXML private ListView<Application> appList;
     @FXML private SplitPane splitPane;
+    @FXML private VBox appInfoPanel;
     @FXML private AppInfoController appInfoPanelController;
     @FXML public ProgressBar progressBar;
     @FXML private VBox root;
@@ -41,9 +42,7 @@ public class MainWindowController {
     }
 
     private void setDividerPosition() {
-        ChangeListener chl = (object, oldValue, newValue) -> {
-            splitPane.setDividerPositions(0.2);
-        };
+        ChangeListener chl = (object, oldValue, newValue) -> splitPane.setDividerPositions(0.2);
         splitPane.widthProperty().addListener(chl);
         splitPane.heightProperty().addListener(chl);
     }

@@ -12,10 +12,7 @@ import st.repo.Link;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class ReloadRepositoryTask extends Task<List<Application>> {
     @Override
@@ -37,7 +34,7 @@ public class ReloadRepositoryTask extends Task<List<Application>> {
             updateProgress(currentApp, appsCount);
         }
 
-        applications.removeIf(app -> app == null);
+        applications.removeIf(Objects::isNull);
         return applications;
     }
 
@@ -56,18 +53,17 @@ public class ReloadRepositoryTask extends Task<List<Application>> {
     private String loadFile(URL url) throws IOException {
         InputStream is = url.openStream();
         Scanner sc = new Scanner(is);
-        String file = "";
+        StringBuilder file = new StringBuilder();
         while (sc.hasNextLine()) {
-            file = file + sc.nextLine() + "\n";
+            file.append(sc.nextLine()).append("\n");
         }
         sc.close();
         is.close();
-        return file;
+        return file.toString();
     }
 
     private Application loadApplicationFromURL(URL jsonUrl) throws IOException {
-        String jsonFile = "";
-        jsonFile = loadFile(jsonUrl);
+        String jsonFile = loadFile(jsonUrl);
         JSONParser parser = new JSONParser();
         JSONObject root;
         try {
@@ -118,7 +114,7 @@ public class ReloadRepositoryTask extends Task<List<Application>> {
 
     private String[] parseCommands(String command) {
         String[] installationCommands = command.split(";");
-        Object[] installCommObj = Arrays.stream(installationCommands).map(s -> s.trim()).filter(s -> !s.isEmpty()).toArray();
+        Object[] installCommObj = Arrays.stream(installationCommands).map(String::trim).filter(s -> !s.isEmpty()).toArray();
         installationCommands = new String[installCommObj.length];
         for (int i = 0; i < installCommObj.length; i++) {
             installationCommands[i] = (String)installCommObj[i];

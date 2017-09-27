@@ -24,13 +24,13 @@ public class RemoveTask extends Task {
         updateTitle("Usuwanie...");
         updateMessage("Usuwanie folderu " + folder.getName());
         removeFile(folder);
-        if (!jsonFile.delete()) jsonFile.deleteOnExit();
+        if (!jsonFile.delete()) jsonFile.deleteOnExit();;
         return null;
     }
 
     private void removeFile(File file) {
         if (file.isDirectory()) {
-            Arrays.stream(file.listFiles()).forEach(f -> removeFile(f));
+            Arrays.stream(file.listFiles()).forEach(this::removeFile);
             if (!file.delete()) file.deleteOnExit();
         }
         else {
@@ -43,7 +43,7 @@ public class RemoveTask extends Task {
     private long getSize(File file) {
         if (file.isDirectory()) {
             return Arrays.stream(file.listFiles())
-                    .mapToLong(f -> getSize(f))
+                    .mapToLong(this::getSize)
                     .sum();
 
         }
