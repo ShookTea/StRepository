@@ -34,7 +34,8 @@ public class Application {
         this.installationData = instData;
 
         installationPath = Paths.get("apps/" + title).toAbsolutePath();
-        isDownloaded = new SimpleBooleanProperty(installationPath.toFile().exists());
+        isDownloaded = new SimpleBooleanProperty();
+        updateDownloadedState();
         canBeUpdated = new SimpleBooleanProperty();
         canBeUpdated.bind(isDownloaded.and(this.installedVersion.isNotEqualTo(this.installationData.newestVersion)));
     }
@@ -50,7 +51,9 @@ public class Application {
         return task;
     }
 
-
+    public void updateDownloadedState() {
+        isDownloaded.set(installationPath.toFile().exists());
+    }
 
 
     public static final Application NULL_APP = new Application();

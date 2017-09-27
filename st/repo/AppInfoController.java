@@ -111,6 +111,7 @@ public class AppInfoController {
             windowController.progressBar.progressProperty().unbind();
             windowController.progressBar.setProgress(0.0);
             windowController.setDisable(false);
+            currentApp.get().updateDownloadedState();
         });
         task.setOnFailed(e -> {
             System.exit(0);
