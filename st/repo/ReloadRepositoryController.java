@@ -82,7 +82,7 @@ public class ReloadRepositoryController {
         Object links = root.getOrDefault("links", null);
         List<Link> linksList = parseLinkTable(links);
 
-        return new Application(name, false, false, newestVersion, newestVersion, description, authorsList, linksList);
+        return new Application(name, newestVersion, newestVersion, description, authorsList, linksList);
     }
 
     private String loadFile(URL url) throws IOException {

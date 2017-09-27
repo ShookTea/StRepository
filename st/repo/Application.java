@@ -4,6 +4,8 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,20 +20,25 @@ public class Application {
     public final ObservableList<Link> authors;
     public final ObservableList<Link> links;
 
-    public Application(String title, boolean isDownloaded, boolean canBeUpdated, String installedVersion, String newestVersion, String description, List<Link> authors, List<Link> links) {
+    public final Path installationPath;
+
+    public Application(String title, String installedVersion, String newestVersion, String description, List<Link> authors, List<Link> links) {
         this.title = new SimpleStringProperty(title);
-        this.isDownloaded = new SimpleBooleanProperty(isDownloaded);
-        this.canBeUpdated = new SimpleBooleanProperty(canBeUpdated);
         this.installedVersion = new SimpleStringProperty(installedVersion);
         this.newestVersion = new SimpleStringProperty(newestVersion);
         this.description = new SimpleStringProperty(description);
         this.authors = FXCollections.observableArrayList(authors);
         this.links = FXCollections.observableArrayList(links);
         this.isLocked = new SimpleBooleanProperty(false);
+
+        installationPath = Paths.get("apps/" + title).toAbsolutePath();
+        isDownloaded = new SimpleBooleanProperty(installationPath.toFile().exists());
+        canBeUpdated = new SimpleBooleanProperty();
+        canBeUpdated.bind(isDownloaded.and(this.installedVersion.isNotEqualTo(this.newestVersion)));
     }
 
     private Application() {
-        this("", false, false, "", "", "", new ArrayList<>(), new ArrayList<>());
+        this("", "", "", "", new ArrayList<>(), new ArrayList<>());
         this.isLocked.setValue(true);
     }
 
