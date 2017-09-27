@@ -4,6 +4,7 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -41,6 +42,18 @@ public class Application {
         this("", "", "", new ArrayList<>(), new ArrayList<>(), new InstallationData(null, "", new String[0]));
         this.isLocked.setValue(true);
     }
+
+    public void download() {
+        File folder = installationPath.toFile();
+        if (!folder.mkdirs()) {
+            System.err.println("Error: cannot create folder " + folder.getPath());
+            System.exit(0);
+        }
+        installationData.startDownloadTo(folder);
+    }
+
+
+
 
     public static final Application NULL_APP = new Application();
     private static ListProperty<Application> list = new SimpleListProperty<>();

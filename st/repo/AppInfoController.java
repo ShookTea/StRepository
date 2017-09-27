@@ -27,6 +27,7 @@ public class AppInfoController {
     @FXML private FlowPane appLinksFlowPane;
 
     private ObjectProperty<Application> currentApp = new SimpleObjectProperty<>(Application.NULL_APP);
+    private MainWindowController windowController;
 
     public void setApp(Application app) {
         if (app == null) {
@@ -76,6 +77,10 @@ public class AppInfoController {
         createLinksList(appLinksFlowPane, currentApp.get().links);
     }
 
+    public void setWindowController(MainWindowController mwc) {
+        this.windowController = mwc;
+    }
+
     private void createLinksList(FlowPane fp, ObservableList<Link> links) {
         fp.getChildren().clear();
         fp.getChildren().addAll(links.stream().map(link -> {
@@ -96,7 +101,9 @@ public class AppInfoController {
 
     @FXML
     private void downloadApp() {
-
+        windowController.setDisable(true);
+        currentApp.get().download();
+        windowController.setDisable(false);
     }
 
     @FXML

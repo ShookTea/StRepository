@@ -33,6 +33,7 @@ public class MainWindowController {
         updateRepository();
         setDividerPosition();
         bindAppList();
+        appInfoPanelController.setWindowController(this);
     }
 
     private void setDividerPosition() {
@@ -78,7 +79,7 @@ public class MainWindowController {
 
     @FXML
     private void updateRepository() {
-        root.setDisable(true);
+        setDisable(true);
         try {
             FXMLLoader loader = new FXMLLoader(ReloadRepositoryController.class.getResource("reloadRepository.fxml"));
             BorderPane pane = loader.load();
@@ -89,6 +90,10 @@ public class MainWindowController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        root.setDisable(false);
+        setDisable(false);
+    }
+
+    public void setDisable(boolean disable) {
+        root.setDisable(disable);
     }
 }
