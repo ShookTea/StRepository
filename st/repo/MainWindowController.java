@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -18,7 +19,6 @@ public class MainWindowController {
     @FXML private ListView<Application> appList;
     @FXML private SplitPane splitPane;
     @FXML private AppInfoController appInfoPanelController;
-    @FXML private Label statusText;
     @FXML public ProgressBar progressBar;
     @FXML private VBox root;
 
@@ -35,6 +35,7 @@ public class MainWindowController {
         updateRepository();
         setDividerPosition();
         bindAppList();
+        progressBar.prefWidthProperty().bind((((HBox)progressBar.getParent()).widthProperty()));
         appInfoPanelController.setWindowController(this);
     }
 
