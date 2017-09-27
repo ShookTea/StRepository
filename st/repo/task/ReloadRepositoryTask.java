@@ -17,9 +17,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class ReloadRepositoryTask extends Task {
+public class ReloadRepositoryTask extends Task<List<Application>> {
     @Override
-    protected Object call() throws Exception {
+    protected List<Application> call() throws Exception {
         updateTitle("Wczytywanie repozytorium...");
         updateMessage("Wczytywanie repozytorium...");
         updateProgress(-1, -1);
@@ -38,8 +38,7 @@ public class ReloadRepositoryTask extends Task {
         }
 
         applications.removeIf(app -> app == null);
-        Application.setAppsList(applications);
-        return null;
+        return applications;
     }
 
     private List<URL> loadRepositoryURLs(URL repoList) throws IOException {
