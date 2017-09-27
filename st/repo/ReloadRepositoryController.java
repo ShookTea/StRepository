@@ -79,6 +79,8 @@ public class ReloadRepositoryController {
 
         Object authors = root.getOrDefault("authors", null);
         List<Link> authorsList = parseLinkTable(authors);
+        Object links = root.getOrDefault("links", null);
+        List<Link> linksList = parseLinkTable(links);
 
         return new Application(name, false, false, newestVersion, description);
     }
