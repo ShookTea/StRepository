@@ -4,13 +4,21 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import st.repo.task.DownloadTask;
 import st.repo.task.RemoveTask;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Application {
     public final StringProperty title;
@@ -39,11 +47,27 @@ public class Application {
         updateDownloadedState();
         canBeUpdated = new SimpleBooleanProperty();
         canBeUpdated.bind(isDownloaded.and(this.installedVersion.isNotEqualTo(this.installationData.newestVersion)));
+        if (isDownloaded.get() && !title.isEmpty()) {
+            checkInstalledVersion();
+        }
     }
 
     private Application() {
         this("", "", new ArrayList<>(), new ArrayList<>(), InstallationData.NULL);
         this.isLocked.setValue(true);
+    }
+
+    private void checkInstalledVersion() {
+        try {
+            File installFolder = installationPath.toFile();
+            File strepFile = new File(installFolder.getParent(), title.get().replace(" ", "_") + ".strep");
+            JSONParser parser = new JSONParser();
+            JSONObject parsed = (JSONObject)parser.parse(new FileReader(strepFile));
+            String version = (String)parsed.get("version");
+            installedVersion.setValue(version);
+        } catch (ParseException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public Task createDownloadTask() {
