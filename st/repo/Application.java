@@ -47,9 +47,7 @@ public class Application {
         updateDownloadedState();
         canBeUpdated = new SimpleBooleanProperty();
         canBeUpdated.bind(isDownloaded.and(this.installedVersion.isNotEqualTo(this.installationData.newestVersion)));
-        if (isDownloaded.get() && !title.isEmpty()) {
-            checkInstalledVersion();
-        }
+        checkInstalledVersion();
     }
 
     private Application() {
@@ -58,11 +56,12 @@ public class Application {
     }
 
     public void updateStatus() {
-        checkInstalledVersion();
         updateDownloadedState();
+        checkInstalledVersion();
     }
 
     public void checkInstalledVersion() {
+        if (!isDownloaded.get() || title.getValue().isEmpty()) return;
         try {
             File installFolder = installationPath.toFile();
             File strepFile = new File(installFolder.getParent(), title.get().replace(" ", "_") + ".strep");
