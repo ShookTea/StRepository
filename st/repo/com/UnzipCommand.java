@@ -14,6 +14,7 @@ public class UnzipCommand extends Command {
 
     @Override
     public void run(File dir, String[] args) {
+        if (args.length == 0) return;
         byte[] buffer = new byte[1024];
         try {
             File zipFile = new File(dir, args[0]);
