@@ -1,8 +1,8 @@
 {
   "name": "Finanse",
-  "version": "1.8",
+  "version": "1.9",
   "tags": [ "office", "gui" ],
-  "download": "https://github.com/ShookTea/Finanse/releases/download/v1.8/Finanse.jar",
+  "download": "https://github.com/ShookTea/Finanse/releases/download/v1.9/Finanse.jar",
   "installation": "",
   "description": "https://raw.githubusercontent.com/ShookTea/Finanse/master/src/description.txt",
   "changelog": "https://raw.githubusercontent.com/ShookTea/Finanse/master/src/changelog.strepcl",
