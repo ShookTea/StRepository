@@ -18,31 +18,24 @@ public class Application {
     public final ObservableList<Link> authors;
     public final ObservableList<Link> links;
 
-    private Application(String title, boolean isDownloaded, boolean canBeUpdated, boolean isLocked, String installedVersion, String newestVersion, String description, List<Link> authors, List<Link> links) {
+    public Application(String title, boolean isDownloaded, boolean canBeUpdated, String installedVersion, String newestVersion, String description, List<Link> authors, List<Link> links) {
         this.title = new SimpleStringProperty(title);
         this.isDownloaded = new SimpleBooleanProperty(isDownloaded);
         this.canBeUpdated = new SimpleBooleanProperty(canBeUpdated);
-        this.isLocked = new SimpleBooleanProperty(isLocked);
         this.installedVersion = new SimpleStringProperty(installedVersion);
         this.newestVersion = new SimpleStringProperty(newestVersion);
         this.description = new SimpleStringProperty(description);
         this.authors = FXCollections.observableArrayList(authors);
         this.links = FXCollections.observableArrayList(links);
+        this.isLocked = new SimpleBooleanProperty(false);
     }
 
-    public Application(String title, boolean isDownloaded, boolean canBeUpdated, String installedVersion, String newestVersion, String description, List<Link> authors, List<Link> links) {
-        this(title, isDownloaded, canBeUpdated, false, installedVersion, newestVersion, description, authors, links);
+    private Application() {
+        this("", false, false, "", "", "", new ArrayList<>(), new ArrayList<>());
+        this.isLocked.setValue(true);
     }
 
-    public Application(String title, boolean isDownloaded, boolean canBeUpdated, String installedVersion, String description) {
-        this(title, isDownloaded, canBeUpdated, false, installedVersion, installedVersion, description, new ArrayList<>(), new ArrayList<>());
-    }
-
-    public Application() {
-        this("", false, false, "", "");
-    }
-
-    public static final Application NULL_APP = new Application("", false, false, true, "", "", "", new ArrayList<>(), new ArrayList<>());
+    public static final Application NULL_APP = new Application();
     private static ListProperty<Application> list = new SimpleListProperty<>();
 
     public static ListProperty<Application> getAppsList() {
