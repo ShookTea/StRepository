@@ -21,6 +21,10 @@ public class InstallationData {
 
     public void startDownloadTo(File folder) {
         installationPhase.set(0.0);
+        if (!folder.mkdirs()) {
+            System.err.println("Error: cannot create folder " + folder.getPath());
+            System.exit(0);
+        }
     }
 
     public static final DoubleProperty installationPhase = new SimpleDoubleProperty(0.0);

@@ -45,10 +45,6 @@ public class Application {
 
     public void download() {
         File folder = installationPath.toFile();
-        if (!folder.mkdirs()) {
-            System.err.println("Error: cannot create folder " + folder.getPath());
-            System.exit(0);
-        }
         installationData.startDownloadTo(folder);
     }
 
