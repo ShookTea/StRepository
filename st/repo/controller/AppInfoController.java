@@ -14,6 +14,9 @@ import st.repo.Application;
 import st.repo.Link;
 import st.repo.Start;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class AppInfoController {
@@ -130,20 +133,30 @@ public class AppInfoController {
 
     }
 
-    private void runTask(Task task) {
-        task.setOnRunning(e -> {
+    private void runTask(Task... tasks) {
+        ArrayList<Task> taskList = new ArrayList<>();
+        taskList.addAll(Arrays.asList(tasks));
+        runTask(taskList);
+    }
+
+    private void runTask(List<Task> taskList) {
+        Task currentTask = taskList.remove(0);
+        currentTask.setOnRunning(e -> {
             windowController.setDisable(true);
-            windowController.progressBar.progressProperty().bind(task.progressProperty());
+            windowController.progressBar.progressProperty().bind(currentTask.progressProperty());
         });
-        task.setOnSucceeded(e -> {
+        currentTask.setOnSucceeded(e -> {
             windowController.progressBar.progressProperty().unbind();
             windowController.progressBar.setProgress(0.0);
             windowController.setDisable(false);
             currentApp.get().updateStatus();
+            if (taskList.size() > 0) {
+                runTask(taskList);
+            }
         });
-        task.setOnFailed(e -> {
+        currentTask.setOnFailed(e -> {
             System.exit(1);
         });
-        new Thread(task).start();
+        new Thread(currentTask).start();
     }
 }
