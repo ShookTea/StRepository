@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -73,7 +74,6 @@ public class ReloadRepositoryController {
         }
 
         String name = (String)root.get("name");
-        String newestVersion = (String)root.get("version");
         String descriptionLink = (String)root.getOrDefault("description", null);
         String description = descriptionLink == null ? "" : loadFile(new URL(descriptionLink));
 
@@ -81,6 +81,11 @@ public class ReloadRepositoryController {
         List<Link> authorsList = parseLinkTable(authors);
         Object links = root.getOrDefault("links", null);
         List<Link> linksList = parseLinkTable(links);
+
+        String newestVersion = (String)root.get("version");
+        URL downloadPath = new URL(root.get("download").toString());
+        String[] installationCommands = parseCommands(root.getOrDefault("installation", "").toString());
+        InstallationData instData = new InstallationData(downloadPath, newestVersion, installationCommands);
 
         return new Application(name, newestVersion, newestVersion, description, authorsList, linksList);
     }
@@ -117,5 +122,15 @@ public class ReloadRepositoryController {
         String name = (String)ob.get("name");
         String link = (String)ob.get("link");
         return new Link(name, link);
+    }
+
+    private String[] parseCommands(String command) {
+        String[] installationCommands = command.split(";");
+        Object[] installCommObj = Arrays.stream(installationCommands).map(s -> s.trim()).filter(s -> !s.isEmpty()).toArray();
+        installationCommands = new String[installCommObj.length];
+        for (int i = 0; i < installCommObj.length; i++) {
+            installationCommands[i] = (String)installCommObj[i];
+        }
+        return installationCommands;
     }
 }
