@@ -76,6 +76,7 @@ public class ReloadRepositoryTask extends Task<List<Application>> {
         String name = (String)root.get("name");
         String descriptionLink = (String)root.getOrDefault("description", null);
         String description = descriptionLink == null ? "" : loadFile(new URL(descriptionLink));
+        String runningCommand = (String)root.getOrDefault("runCommand", "");
 
         Object authors = root.getOrDefault("authors", null);
         List<Link> authorsList = parseLinkTable(authors);
@@ -87,7 +88,7 @@ public class ReloadRepositoryTask extends Task<List<Application>> {
         String[] installationCommands = parseCommands(root.getOrDefault("installation", "").toString());
         InstallationData instData = new InstallationData(downloadPath, newestVersion, installationCommands, jsonUrl);
 
-        Application app = new Application(name, description, authorsList, linksList, instData);
+        Application app = new Application(name, description, authorsList, linksList, instData, runningCommand);
         return app;
     }
 

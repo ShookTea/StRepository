@@ -11,14 +11,12 @@ import st.repo.task.DownloadTask;
 import st.repo.task.RemoveTask;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Application {
     public final StringProperty title;
@@ -32,8 +30,9 @@ public class Application {
 
     public final InstallationData installationData;
     public final Path installationPath;
+    private final String runningCommand;
 
-    public Application(String title, String description, List<Link> authors, List<Link> links, InstallationData instData) {
+    public Application(String title, String description, List<Link> authors, List<Link> links, InstallationData instData, String runningCommand) {
         this.title = new SimpleStringProperty(title);
         this.installedVersion = new SimpleStringProperty("");
         this.description = new SimpleStringProperty(description);
@@ -41,6 +40,7 @@ public class Application {
         this.links = FXCollections.observableArrayList(links);
         this.isLocked = new SimpleBooleanProperty(false);
         this.installationData = instData;
+        this.runningCommand = runningCommand;
 
         installationPath = Paths.get("apps/" + title).toAbsolutePath();
         isDownloaded = new SimpleBooleanProperty();
@@ -51,7 +51,7 @@ public class Application {
     }
 
     private Application() {
-        this("", "", new ArrayList<>(), new ArrayList<>(), InstallationData.NULL);
+        this("", "", new ArrayList<>(), new ArrayList<>(), InstallationData.NULL, "");
         this.isLocked.setValue(true);
     }
 
