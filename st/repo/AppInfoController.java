@@ -108,7 +108,8 @@ public class AppInfoController {
 
     @FXML
     private void removeApp() {
-
+        Task task = currentApp.get().createRemoveTask();
+        runTask(task);
     }
 
     @FXML
@@ -138,7 +139,7 @@ public class AppInfoController {
             currentApp.get().updateDownloadedState();
         });
         task.setOnFailed(e -> {
-            System.exit(0);
+            System.exit(1);
         });
         new Thread(task).start();
     }
