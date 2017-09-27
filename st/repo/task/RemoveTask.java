@@ -8,11 +8,13 @@ import java.util.Arrays;
 
 public class RemoveTask extends Task {
     private final File folder;
+    private final File jsonFile;
     private final long size;
     private long deleted = 0;
 
     public RemoveTask(Application app) {
         this.folder = app.installationPath.toFile();
+        this.jsonFile = new File(folder.getParent(), app.title.get().replace(" ", "_") + ".strep");
         this.size = getSize(folder);
     }
 
@@ -22,6 +24,7 @@ public class RemoveTask extends Task {
         updateTitle("Usuwanie...");
         updateMessage("Usuwanie folderu " + folder.getName());
         removeFile(folder);
+        if (!jsonFile.delete()) jsonFile.deleteOnExit();
         return null;
     }
 
