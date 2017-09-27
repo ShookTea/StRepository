@@ -16,12 +16,16 @@ import java.nio.channels.ReadableByteChannel;
 public class DownloadTask extends Task {
     private final File folder;
     private final URL downloadUrl;
+    private final URL jsonUrl;
+    private final String name;
     private File downloadFile = null;
     private long size = 0;
 
     public DownloadTask(Application app) {
         this.folder = app.installationPath.toFile();
         this.downloadUrl = app.installationData.downloadUrl;
+        this.jsonUrl = app.installationData.onlineJsonFile;
+        this.name = app.title.get();
     }
 
     @Override
@@ -31,12 +35,30 @@ public class DownloadTask extends Task {
             System.err.println("Error: cannot create folder " + folder.getPath());
             System.exit(0);
         }
+        downloadJSON();
         init(downloadUrl, folder);
         updateTitle("Pobieranie...");
         updateMessage("Pobieranie pliku " + downloadFile.getName() + " z adresu " + downloadUrl.toString());
         updateProgress(0, size);
         download();
         return null;
+    }
+
+    public void downloadJSON() throws IOException {
+        File jsonFile = new File(folder.getParent(), name.replace(" ", "_") + ".strep");
+        InputStream stream = jsonUrl.openStream();
+        ReadableByteChannel rbc = Channels.newChannel(stream);
+        jsonFile.createNewFile();
+        FileOutputStream fos = new FileOutputStream(jsonFile);
+        FileChannel fc = fos.getChannel();
+
+        fc.transferFrom(rbc, 0, Long.MAX_VALUE);
+
+        fc.close();
+        fos.close();
+        rbc.close();
+        stream.close();
+        System.out.println("Downloaded to " + jsonFile);
     }
 
     public void init(URL url, File folder) throws IOException {
