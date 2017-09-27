@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class RemoveTask extends Task {
     private final File folder;
-    private long size = -1;
+    private long size = 0;
     private long deleted = 0;
 
     public RemoveTask(File folder) {
@@ -15,7 +15,7 @@ public class RemoveTask extends Task {
     }
 
     @Override
-    protected Object call() throws Exception {
+    protected Object call() {
         updateProgress(-1, -1);
         updateTitle("Usuwanie...");
         updateMessage("Usuwanie folderu " + folder.getName());
@@ -26,7 +26,7 @@ public class RemoveTask extends Task {
 
     private void removeFile(File file) {
         if (file.isDirectory()) {
-            Arrays.stream(file.listFiles()).forEach(f -> removeFile(file));
+            Arrays.stream(file.listFiles()).forEach(f -> removeFile(f));
             if (!file.delete()) file.deleteOnExit();
         }
         else {
