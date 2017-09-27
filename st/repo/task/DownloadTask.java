@@ -2,6 +2,7 @@ package st.repo.task;
 
 import javafx.concurrent.Task;
 import st.repo.Application;
+import st.repo.com.Command;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -76,7 +77,7 @@ public class DownloadTask extends Task {
 
     private void install() {
         for (String command : commands) {
-
+            Command.runCommand(command, folder);
         }
     }
 
