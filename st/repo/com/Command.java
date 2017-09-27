@@ -36,6 +36,6 @@ public abstract class Command {
         return new NativeCommand(command);
     }
 
-    private static Command[] commandList = new Command[] {};
+    private static Command[] commandList = new Command[] {new UnzipCommand()};
     private static Pattern pattern = Pattern.compile("\"([^\"]*)\"|(\\S+)");
 }
