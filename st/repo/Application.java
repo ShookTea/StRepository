@@ -42,7 +42,7 @@ public class Application {
     }
 
     private Application() {
-        this("", "", "", new ArrayList<>(), new ArrayList<>(), new InstallationData(null, "", new String[0]));
+        this("", "", "", new ArrayList<>(), new ArrayList<>(), InstallationData.NULL);
         this.isLocked.setValue(true);
     }
 

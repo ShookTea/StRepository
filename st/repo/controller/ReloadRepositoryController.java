@@ -64,9 +64,9 @@ public class ReloadRepositoryController {
         stageToDispose.close();
     }
 
-    private Application loadApplicationFromURL(URL url) throws IOException {
+    private Application loadApplicationFromURL(URL jsonUrl) throws IOException {
         String jsonFile = "";
-        jsonFile = loadFile(url);
+        jsonFile = loadFile(jsonUrl);
         JSONParser parser = new JSONParser();
         JSONObject root;
         try {
@@ -88,7 +88,7 @@ public class ReloadRepositoryController {
         String newestVersion = (String)root.get("version");
         URL downloadPath = new URL(root.get("download").toString());
         String[] installationCommands = parseCommands(root.getOrDefault("installation", "").toString());
-        InstallationData instData = new InstallationData(downloadPath, newestVersion, installationCommands);
+        InstallationData instData = new InstallationData(downloadPath, newestVersion, installationCommands, jsonUrl);
 
         return new Application(name, newestVersion, description, authorsList, linksList, instData);
     }
