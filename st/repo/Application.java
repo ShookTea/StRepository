@@ -74,6 +74,10 @@ public class Application {
         }
     }
 
+    public void runApplication() {
+
+    }
+
     public void updateDownloadedState() {
         isDownloaded.set(installationPath.toFile().exists());
     }

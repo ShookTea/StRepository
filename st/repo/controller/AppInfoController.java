@@ -120,7 +120,7 @@ public class AppInfoController {
 
     @FXML
     private void runApp() {
-
+        currentApp.get().runApplication();
     }
 
     @FXML
