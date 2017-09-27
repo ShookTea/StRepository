@@ -44,22 +44,6 @@ public class DownloadTask extends Task {
         return null;
     }
 
-    public void downloadJSON() throws IOException {
-        File jsonFile = new File(folder.getParent(), name.replace(" ", "_") + ".strep");
-        InputStream stream = jsonUrl.openStream();
-        ReadableByteChannel rbc = Channels.newChannel(stream);
-        jsonFile.createNewFile();
-        FileOutputStream fos = new FileOutputStream(jsonFile);
-        FileChannel fc = fos.getChannel();
-
-        fc.transferFrom(rbc, 0, Long.MAX_VALUE);
-
-        fc.close();
-        fos.close();
-        rbc.close();
-        stream.close();
-    }
-
     public void init(URL url, File folder) throws IOException {
         URLConnection urlc = url.openConnection();
         String urlFile = url.getFile();
@@ -68,13 +52,15 @@ public class DownloadTask extends Task {
         downloadFile = new File(folder, fileName);
     }
 
-    private void download() throws IOException {
-        InputStream stream = downloadUrl.openStream();
-        ReadableByteChannel rbc = Channels.newChannel(stream);
-        downloadFile.createNewFile();
-        FileOutputStream fos = new FileOutputStream(downloadFile);
-        FileChannel channel = fos.getChannel();
+    private void downloadJSON() throws IOException {
+        File jsonFile = new File(folder.getParent(), name.replace(" ", "_") + ".strep");
+        initChannels(jsonUrl, jsonFile);
+        channel.transferFrom(rbc, 0, Long.MAX_VALUE);
+        closeChannels();
+    }
 
+    private void download() throws IOException {
+        initChannels(downloadUrl, downloadFile);
         long actualPosition = 0;
         long downloaded = -1;
         while (downloaded != 0) {
@@ -82,10 +68,26 @@ public class DownloadTask extends Task {
             actualPosition += downloaded;
             updateProgress(actualPosition, size);
         }
+        closeChannels();
+    }
 
+    private void initChannels(URL src, File dest) throws IOException {
+        stream = src.openStream();
+        rbc = Channels.newChannel(stream);
+        dest.createNewFile();
+        fos = new FileOutputStream(dest);
+        channel = fos.getChannel();
+    }
+
+    private void closeChannels() throws IOException {
         channel.close();
         fos.close();
         rbc.close();
         stream.close();
     }
+
+    private InputStream stream;
+    private ReadableByteChannel rbc;
+    private FileOutputStream fos;
+    private FileChannel channel;
 }
