@@ -46,15 +46,11 @@ public class Application {
     }
 
     public Task createDownloadTask() {
-        File folder = installationPath.toFile();
-        Task task = installationData.createDownloadTask(folder);
-        return task;
+        return new DownloadTask(this);
     }
 
     public Task createRemoveTask() {
-        File folder = installationPath.toFile();
-        Task task = new RemoveTask(folder);
-        return task;
+        return new RemoveTask(this);
     }
 
     public void updateDownloadedState() {

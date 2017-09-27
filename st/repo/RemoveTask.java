@@ -10,8 +10,8 @@ public class RemoveTask extends Task {
     private final long size;
     private long deleted = 0;
 
-    public RemoveTask(File folder) {
-        this.folder = folder;
+    public RemoveTask(Application app) {
+        this.folder = app.installationPath.toFile();
         this.size = getSize(folder);
     }
 

@@ -18,9 +18,9 @@ public class DownloadTask extends Task {
     private File downloadFile = null;
     private long size = 0;
 
-    public DownloadTask(File folder, URL downloadUrl) {
-        this.folder = folder;
-        this.downloadUrl = downloadUrl;
+    public DownloadTask(Application app) {
+        this.folder = app.installationPath.toFile();
+        this.downloadUrl = app.installationData.downloadUrl;
     }
 
     @Override
