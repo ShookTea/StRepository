@@ -42,9 +42,15 @@ public class ReloadRepositoryController {
         double stepPerProgress = 1.0 / ((double)urls.size());
 
         List<Application> applications = urls.stream().map(url -> {
-            Application app = loadApplicationFromURL(url);
-            currentProgress.set(currentProgress.get() + stepPerProgress);
-            return app;
+            Application app = null;
+            try {
+                app = loadApplicationFromURL(url);
+                currentProgress.set(currentProgress.get() + stepPerProgress);
+                return app;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
         }).collect(Collectors.toList());
         currentProgress.set(1.0);
 
@@ -53,15 +59,9 @@ public class ReloadRepositoryController {
         stageToDispose.close();
     }
 
-    private Application loadApplicationFromURL(URL url) {
+    private Application loadApplicationFromURL(URL url) throws IOException {
         String jsonFile = "";
-        try {
-            jsonFile = loadFile(url);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-
+        jsonFile = loadFile(url);
         JSONParser parser = new JSONParser();
         JSONObject root;
         try {
@@ -73,7 +73,8 @@ public class ReloadRepositoryController {
 
         String name = (String)root.get("name");
         String newestVersion = (String)root.get("version");
-        String description = (String)root.get("description");
+        String descriptionLink = (String)root.get("description");
+        String description = loadFile(new URL(descriptionLink));
 
         return new Application(name, false, false, newestVersion, description);
     }
