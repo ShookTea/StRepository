@@ -19,7 +19,6 @@ public class Start extends Application {
         Scene scene = new Scene(mainWindow);
 
         primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
         primaryStage.setTitle("StRepository");
         primaryStage.setOnCloseRequest(e -> {
             primaryStage.close();
