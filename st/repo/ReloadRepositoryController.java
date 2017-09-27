@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.ProgressIndicator;
 import javafx.stage.Stage;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -73,8 +74,11 @@ public class ReloadRepositoryController {
 
         String name = (String)root.get("name");
         String newestVersion = (String)root.get("version");
-        String descriptionLink = (String)root.get("description");
-        String description = loadFile(new URL(descriptionLink));
+        String descriptionLink = (String)root.getOrDefault("description", null);
+        String description = descriptionLink == null ? "" : loadFile(new URL(descriptionLink));
+
+        Object authors = root.getOrDefault("authors", null);
+        List<Link> authorsList = parseLinkTable(authors);
 
         return new Application(name, false, false, newestVersion, description);
     }
@@ -89,5 +93,27 @@ public class ReloadRepositoryController {
         sc.close();
         is.close();
         return file;
+    }
+
+    private List<Link> parseLinkTable(Object ob) {
+        List<Link> list = new ArrayList<>();
+        if (ob instanceof JSONObject) {
+            JSONObject jsonObject = (JSONObject)ob;
+            list.add(parseLinkObject(jsonObject));
+        }
+        else if (ob instanceof JSONArray) {
+            JSONArray jsonArray = (JSONArray)ob;
+            for (Object element : jsonArray) {
+                JSONObject objElement = (JSONObject)element;
+                list.add(parseLinkObject(objElement));
+            }
+        }
+        return list;
+    }
+
+    private Link parseLinkObject(JSONObject ob) {
+        String name = (String)ob.get("name");
+        String link = (String)ob.get("link");
+        return new Link(name, link);
     }
 }
