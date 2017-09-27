@@ -51,10 +51,15 @@ public class Application {
         return task;
     }
 
+    public Task createRemoveTask() {
+        File folder = installationPath.toFile();
+        Task task = new RemoveTask(folder);
+        return task;
+    }
+
     public void updateDownloadedState() {
         isDownloaded.set(installationPath.toFile().exists());
     }
-
 
     public static final Application NULL_APP = new Application();
     private static ListProperty<Application> list = new SimpleListProperty<>();
