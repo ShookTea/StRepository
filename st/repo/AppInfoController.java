@@ -4,6 +4,7 @@ import javafx.beans.binding.When;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.*;
 import javafx.scene.control.*;
@@ -101,9 +102,20 @@ public class AppInfoController {
 
     @FXML
     private void downloadApp() {
-        windowController.setDisable(true);
-        currentApp.get().download();
-        windowController.setDisable(false);
+        Task task = currentApp.get().createDownloadTask();
+        task.setOnRunning(e -> {
+            windowController.setDisable(true);
+            windowController.progressBar.progressProperty().bind(task.progressProperty());
+        });
+        task.setOnSucceeded(e -> {
+            windowController.progressBar.progressProperty().unbind();
+            windowController.progressBar.setProgress(0.0);
+            windowController.setDisable(false);
+        });
+        task.setOnFailed(e -> {
+            System.exit(0);
+        });
+        new Thread(task).start();
     }
 
     @FXML

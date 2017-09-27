@@ -19,7 +19,7 @@ public class MainWindowController {
     @FXML private SplitPane splitPane;
     @FXML private AppInfoController appInfoPanelController;
     @FXML private Label statusText;
-    @FXML private ProgressBar progressBar;
+    @FXML public ProgressBar progressBar;
     @FXML private VBox root;
 
     private Stage stage;
@@ -36,7 +36,6 @@ public class MainWindowController {
         setDividerPosition();
         bindAppList();
         appInfoPanelController.setWindowController(this);
-        progressBar.progressProperty().bind(InstallationData.installationPhase);
     }
 
     private void setDividerPosition() {

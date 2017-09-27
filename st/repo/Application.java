@@ -3,6 +3,7 @@ package st.repo;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -43,9 +44,10 @@ public class Application {
         this.isLocked.setValue(true);
     }
 
-    public void download() {
+    public Task createDownloadTask() {
         File folder = installationPath.toFile();
-        installationData.startDownloadTo(folder);
+        Task task = installationData.createDownloadTask(folder);
+        return task;
     }
 
 
