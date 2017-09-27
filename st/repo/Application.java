@@ -25,9 +25,9 @@ public class Application {
     public final InstallationData installationData;
     public final Path installationPath;
 
-    public Application(String title, String installedVersion, String description, List<Link> authors, List<Link> links, InstallationData instData) {
+    public Application(String title, String description, List<Link> authors, List<Link> links, InstallationData instData) {
         this.title = new SimpleStringProperty(title);
-        this.installedVersion = new SimpleStringProperty(installedVersion);
+        this.installedVersion = new SimpleStringProperty("");
         this.description = new SimpleStringProperty(description);
         this.authors = FXCollections.observableArrayList(authors);
         this.links = FXCollections.observableArrayList(links);
@@ -42,7 +42,7 @@ public class Application {
     }
 
     private Application() {
-        this("", "", "", new ArrayList<>(), new ArrayList<>(), InstallationData.NULL);
+        this("", "", new ArrayList<>(), new ArrayList<>(), InstallationData.NULL);
         this.isLocked.setValue(true);
     }
 

@@ -87,7 +87,8 @@ public class ReloadRepositoryTask extends Task<List<Application>> {
         String[] installationCommands = parseCommands(root.getOrDefault("installation", "").toString());
         InstallationData instData = new InstallationData(downloadPath, newestVersion, installationCommands, jsonUrl);
 
-        return new Application(name, newestVersion, description, authorsList, linksList, instData);
+        Application app = new Application(name, description, authorsList, linksList, instData);
+        return app;
     }
 
     private List<Link> parseLinkTable(Object ob) {
