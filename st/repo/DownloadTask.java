@@ -26,6 +26,10 @@ public class DownloadTask extends Task {
     @Override
     protected Object call() throws Exception {
         updateProgress(-1, -1);
+        if (!folder.mkdirs()) {
+            System.err.println("Error: cannot create folder " + folder.getPath());
+            System.exit(0);
+        }
         init(downloadUrl, folder);
         updateTitle("Pobieranie...");
         updateMessage("Pobieranie pliku " + downloadFile.getName() + " z adresu " + downloadUrl.toString());
@@ -34,11 +38,7 @@ public class DownloadTask extends Task {
         return null;
     }
 
-    private void init(URL url, File folder) throws IOException {
-        if (!folder.mkdirs()) {
-            System.err.println("Error: cannot create folder " + folder.getPath());
-            System.exit(0);
-        }
+    public void init(URL url, File folder) throws IOException {
         URLConnection urlc = url.openConnection();
         String urlFile = url.getFile();
         String fileName = urlFile.substring(urlFile.lastIndexOf('/')+1, urlFile.length());

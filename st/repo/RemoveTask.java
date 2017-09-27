@@ -7,11 +7,12 @@ import java.util.Arrays;
 
 public class RemoveTask extends Task {
     private final File folder;
-    private long size = 0;
+    private final long size;
     private long deleted = 0;
 
     public RemoveTask(File folder) {
         this.folder = folder;
+        this.size = getSize(folder);
     }
 
     @Override
@@ -19,7 +20,6 @@ public class RemoveTask extends Task {
         updateProgress(-1, -1);
         updateTitle("Usuwanie...");
         updateMessage("Usuwanie folderu " + folder.getName());
-        size = getSize(folder);
         removeFile(folder);
         return null;
     }
