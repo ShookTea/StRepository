@@ -7,6 +7,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import st.repo.controller.MainWindowController;
+import st.repo.reg.Registry;
 
 public class Start extends Application {
     @Override
@@ -40,4 +41,6 @@ public class Start extends Application {
         dialog.show();
         return dialog;
     }
+
+    public static final Registry REGISTRY = Registry.getInstance();
 }
