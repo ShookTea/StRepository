@@ -17,6 +17,14 @@ public abstract class Registry {
     protected abstract boolean removeExtensionForUser(Extension ext);
     protected abstract boolean removeExtensionForAdmin(Extension ext);
 
+    public boolean updateExtension(Extension ext) {
+        if (updateExtensionForAdmin(ext)) return true;
+        return updateExtensionForUser(ext);
+    }
+
+    protected abstract boolean updateExtensionForUser(Extension ext);
+    protected abstract boolean updateExtensionForAdmin(Extension ext);
+
     public static Registry getInstance() {
         return null;
     }
