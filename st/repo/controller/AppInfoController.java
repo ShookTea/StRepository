@@ -150,10 +150,12 @@ public class AppInfoController {
         currentTask.setOnSucceeded(e -> {
             windowController.progressBar.progressProperty().unbind();
             windowController.progressBar.setProgress(0.0);
-            windowController.setDisable(false);
             currentApp.get().updateStatus();
             if (taskList.size() > 0) {
                 runTask(taskList);
+            }
+            else {
+                windowController.setDisable(false);
             }
         });
         currentTask.setOnFailed(e -> {
