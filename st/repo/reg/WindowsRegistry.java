@@ -38,21 +38,21 @@ public class WindowsRegistry extends Registry {
         String keyNameExt = key + "\\" + ext.extension;
         String keyNameVal = key + "\\" + ext.registerName;
 
-        return runCommands(new String[] {
+        return runCommands(
                 "REG ADD " + keyNameExt + " /ve /d " + ext.registerName + " /f",
                 "REG ADD " + keyNameVal + " /ve /d " + ext.displayName + "/ f",
                 "REG ADD " + keyNameVal + "\\shell\\open\\command /ve /d " + ext.action + " /f"
-        });
+        );
     }
 
     private boolean remove(String key, Extension ext) {
         String keyNameExt = key + "\\" + ext.extension;
         String keyNameVal = key + "\\" + ext.registerName;
 
-        return runCommands(new String[] {
+        return runCommands(
                 "REG DELETE " + keyNameExt + " /f",
                 "REG DELETE " + keyNameVal + " /f"
-        });
+        );
     }
 
     private boolean runCommands(String... commands) {
