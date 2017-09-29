@@ -9,6 +9,9 @@ import javafx.stage.StageStyle;
 import st.repo.controller.MainWindowController;
 import st.repo.reg.Registry;
 
+import java.io.File;
+import java.net.URISyntaxException;
+
 public class Start extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -43,4 +46,13 @@ public class Start extends Application {
     }
 
     public static final Registry REGISTRY = Registry.getInstance();
+    public static final File getJarFile() {
+        try {
+            return new File(Start.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            System.exit(0);
+            return null;
+        }
+    }
 }
