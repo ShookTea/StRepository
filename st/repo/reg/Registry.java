@@ -26,6 +26,7 @@ public abstract class Registry {
     protected abstract boolean updateExtensionForAdmin(Extension ext);
 
     public static Registry getInstance() {
+        if (System.getProperty("os.name", "").toUpperCase().contains("WINDOWS")) return new WindowsRegistry();
         return new NullRegistry();
     }
 }
