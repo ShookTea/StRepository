@@ -2,7 +2,9 @@ package st.repo.task;
 
 import javafx.concurrent.Task;
 import st.repo.Application;
+import st.repo.Start;
 import st.repo.com.Command;
+import st.repo.reg.Extension;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,6 +23,7 @@ public class DownloadTask extends Task {
     private final String name;
     private File downloadFile = null;
     private final String[] commands;
+    private final Extension[] extensions;
     private long size = 0;
 
     public DownloadTask(Application app) {
@@ -29,6 +32,7 @@ public class DownloadTask extends Task {
         this.jsonUrl = app.installationData.onlineJsonFile;
         this.name = app.title.get();
         this.commands = app.installationData.installationCommands;
+        this.extensions = app.extensions;
     }
 
     @Override
@@ -78,6 +82,9 @@ public class DownloadTask extends Task {
     private void install() {
         for (String command : commands) {
             Command.runCommand(command, folder);
+        }
+        for (Extension extension : extensions) {
+            Start.REGISTRY.createExtension(extension);
         }
     }
 
