@@ -33,7 +33,7 @@ public class Start extends Application {
     }
 
     public static void main(String[] args) {
-        launch(args);
+        launch(new String[0]);
     }
 
     public static Stage showDialog(Scene sc, String title) {
