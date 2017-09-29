@@ -2,6 +2,8 @@ package st.repo.task;
 
 import javafx.concurrent.Task;
 import st.repo.Application;
+import st.repo.Start;
+import st.repo.reg.Extension;
 
 import java.io.File;
 import java.util.Arrays;
@@ -10,11 +12,13 @@ public class RemoveTask extends Task {
     private final File folder;
     private final File jsonFile;
     private final long size;
+    private final Extension[] extensions;
     private long deleted = 0;
 
     public RemoveTask(Application app) {
         this.folder = app.installationPath.toFile();
         this.jsonFile = new File(folder.getParent(), app.title.get().replace(" ", "_") + ".strep");
+        this.extensions = app.extensions;
         this.size = getSize(folder);
     }
 
@@ -24,7 +28,9 @@ public class RemoveTask extends Task {
         updateTitle("Usuwanie...");
         updateMessage("Usuwanie folderu " + folder.getName());
         removeFile(folder);
+        updateProgress(-1, -1);
         if (!jsonFile.delete()) jsonFile.deleteOnExit();;
+        removeExtensions();
         return null;
     }
 
@@ -48,5 +54,11 @@ public class RemoveTask extends Task {
 
         }
         return file.length();
+    }
+
+    private void removeExtensions() {
+        for (Extension extension : extensions) {
+            Start.REGISTRY.removeExtension(extension);
+        }
     }
 }

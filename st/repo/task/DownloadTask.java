@@ -48,6 +48,7 @@ public class DownloadTask extends Task {
         updateMessage("Pobieranie pliku " + downloadFile.getName() + " z adresu " + downloadUrl.toString());
         updateProgress(0, size);
         download();
+        updateProgress(-1, -1);
         install();
         return null;
     }
