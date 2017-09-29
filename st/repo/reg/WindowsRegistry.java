@@ -40,8 +40,8 @@ public class WindowsRegistry extends Registry {
 
         return runCommands(
                 "REG ADD " + keyNameExt + " /ve /d " + ext.registerName + " /f",
-                "REG ADD " + keyNameVal + " /ve /d " + ext.displayName + " /f",
-                "REG ADD " + keyNameVal + "\\shell\\open\\command /ve /d " + ext.action + " /f"
+                "REG ADD " + keyNameVal + " /ve /d \"" + ext.displayName + "\" /f",
+                "REG ADD " + keyNameVal + "\\shell\\open\\command /ve /d \"" + ext.action + "\" /f"
         );
     }
 
