@@ -8,6 +8,7 @@ import org.json.simple.parser.ParseException;
 import st.repo.Application;
 import st.repo.InstallationData;
 import st.repo.Link;
+import st.repo.reg.Extension;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -88,8 +89,34 @@ public class ReloadRepositoryTask extends Task<List<Application>> {
         String[] installationCommands = parseCommands(root.getOrDefault("installation", "").toString());
         InstallationData instData = new InstallationData(downloadPath, newestVersion, installationCommands, jsonUrl);
 
-        Application app = new Application(name, description, authorsList, linksList, instData, runningCommand);
+        Object extensions = root.getOrDefault("associatedFiles", null);
+        Extension[] extList = parseExtensions(extensions, name);
+
+        Application app = new Application(name, description, authorsList, linksList, instData, runningCommand, extList);
         return app;
+    }
+
+    private Extension[] parseExtensions(Object extensions, String appName) {
+        List<Extension> extensionList = new ArrayList<>();
+        if (extensions instanceof JSONObject) {
+            JSONObject jsonObject = (JSONObject)extensions;
+            extensionList.add(parseExtension(jsonObject, appName));
+        }
+        else if (extensions instanceof JSONArray) {
+            JSONArray jsonArray = (JSONArray)extensions;
+            for (Object element : jsonArray) {
+                JSONObject jsonObject = (JSONObject)element;
+                extensionList.add(parseExtension(jsonObject, appName));
+            }
+        }
+        return extensionList.toArray(new Extension[0]);
+    }
+
+    private Extension parseExtension(JSONObject jsonObject, String appName) {
+        String extension = (String)jsonObject.get("extension");
+        String name = (String)jsonObject.getOrDefault("name", "Plik programu " + appName);
+        String action = (String)jsonObject.get("runCommand");
+        return new Extension(extension, name, action, appName);
     }
 
     private List<Link> parseLinkTable(Object ob) {

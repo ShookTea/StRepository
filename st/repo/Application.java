@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import st.repo.com.Command;
+import st.repo.reg.Extension;
 import st.repo.task.DownloadTask;
 import st.repo.task.RemoveTask;
 
@@ -31,9 +32,10 @@ public class Application {
 
     public final InstallationData installationData;
     public final Path installationPath;
+    public final Extension[] extensions;
     private final String[] runningCommand;
 
-    public Application(String title, String description, List<Link> authors, List<Link> links, InstallationData instData, String runningCommand) {
+    public Application(String title, String description, List<Link> authors, List<Link> links, InstallationData instData, String runningCommand, Extension[] extensions) {
         this.title = new SimpleStringProperty(title);
         this.installedVersion = new SimpleStringProperty("");
         this.description = new SimpleStringProperty(description);
@@ -42,6 +44,7 @@ public class Application {
         this.isLocked = new SimpleBooleanProperty(false);
         this.installationData = instData;
         this.runningCommand = runningCommand.split(";");
+        this.extensions = extensions;
 
         installationPath = Paths.get("apps/" + title).toAbsolutePath();
         isDownloaded = new SimpleBooleanProperty();
@@ -52,7 +55,7 @@ public class Application {
     }
 
     private Application() {
-        this("", "", new ArrayList<>(), new ArrayList<>(), InstallationData.NULL, "");
+        this("", "", new ArrayList<>(), new ArrayList<>(), InstallationData.NULL, "", new Extension[0]);
         this.isLocked.setValue(true);
     }
 
