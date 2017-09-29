@@ -26,6 +26,6 @@ public abstract class Registry {
     protected abstract boolean updateExtensionForAdmin(Extension ext);
 
     public static Registry getInstance() {
-        return null;
+        return new NullRegistry();
     }
 }
