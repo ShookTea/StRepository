@@ -114,4 +114,9 @@ public class MainWindowController implements DefaultController {
     public ProgressBar getProgressBar() {
         return progressBar;
     }
+
+    @Override
+    public void dispose() {
+        stage.close();
+    }
 }

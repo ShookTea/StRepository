@@ -46,12 +46,13 @@ public class UpdateInfoController implements DefaultController {
         if (app == null) return;
         Task remove = app.createRemoveTask();
         Task install = app.createDownloadTask();
-        TaskRunner.runTask(this, app, remove, install);
+        TaskRunner.runTask(true, this, app, remove, install);
     }
 
     @FXML
     private void runApplication(ActionEvent event) {
         if (app == null) return;
+        dispose();
     }
 
     @Override
@@ -64,4 +65,8 @@ public class UpdateInfoController implements DefaultController {
         return progressBar;
     }
 
+    @Override
+    public void dispose() {
+        stage.close();
+    }
 }

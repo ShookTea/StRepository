@@ -8,4 +8,5 @@ public interface DefaultController {
     public void setStage(Stage stage);
     public VBox getRoot();
     public ProgressBar getProgressBar();
+    public void dispose();
 }
