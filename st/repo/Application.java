@@ -88,7 +88,12 @@ public class Application {
     }
 
     public void runApplication(String command) {
-        Command.runCommand(command, installationPath.toFile());
+        if (command == null) {
+            runApplication();
+        }
+        else {
+            Command.runCommand(command, installationPath.toFile());
+        }
     }
 
     public void updateDownloadedState() {
