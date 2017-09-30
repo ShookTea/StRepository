@@ -19,6 +19,11 @@ import java.net.URISyntaxException;
 public class Start extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
+        if (runInfo.isRunDefault()) runRepository(primaryStage);
+
+    }
+
+    private void runRepository(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(Start.class.getResource("mainWindow.fxml"));
         VBox mainWindow = loader.load();
         MainWindowController controller = loader.getController();
@@ -36,10 +41,11 @@ public class Start extends Application {
     }
 
     public static void main(String[] args) {
-        RunInfo runInfo = checkArgs(args);
+        runInfo = checkArgs(args);
         launch(new String[0]);
     }
 
+    public static RunInfo runInfo = new RunInfo();
     public static final Registry REGISTRY = Registry.getInstance();
 
     public static Stage showDialog(Scene sc, String title) {

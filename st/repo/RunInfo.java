@@ -2,8 +2,8 @@ package st.repo;
 
 public class RunInfo {
 
-    private final String appName;
-    private final String command;
+    public final String appName;
+    public final String command;
 
     public RunInfo(String appName, String command) {
         this.appName = appName;
@@ -16,5 +16,13 @@ public class RunInfo {
 
     public RunInfo() {
         this(null);
+    }
+
+    public boolean isRunDefault() {
+        return appName == null;
+    }
+
+    public boolean isRunApp() {
+        return appName != null;
     }
 }

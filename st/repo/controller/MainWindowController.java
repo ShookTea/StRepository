@@ -87,6 +87,11 @@ public class MainWindowController {
 
     private void createRepositoryUpdater(boolean asNewThread) {
         setDisable(true);
+        createRepository(asNewThread);
+        setDisable(false);
+    }
+
+    public static void createRepository(boolean asNewThread) {
         try {
             FXMLLoader loader = new FXMLLoader(Start.class.getResource("reloadRepository.fxml"));
             BorderPane pane = loader.load();
@@ -97,7 +102,6 @@ public class MainWindowController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        setDisable(false);
     }
 
     public void setDisable(boolean disable) {
