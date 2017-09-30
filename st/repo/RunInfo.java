@@ -21,8 +21,4 @@ public class RunInfo {
     public boolean isRunDefault() {
         return appName == null;
     }
-
-    public boolean isRunApp() {
-        return appName != null;
-    }
 }

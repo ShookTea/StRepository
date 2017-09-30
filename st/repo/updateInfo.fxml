@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="128.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="st.repo.controller.UpdateInfoController">
    <children>
       <Label fx:id="appName" text="Wykryto nową wersję programu NAZWA_APLIKACJI." wrapText="true">
@@ -26,7 +25,7 @@
       </Label>
       <HBox prefHeight="19.0" prefWidth="590.0">
          <children>
-            <Button fx:id="yesButton" mnemonicParsing="false" onAction="#installUpdate" text="Tak">
+            <Button fx:id="yesButton" defaultButton="true" mnemonicParsing="false" onAction="#installUpdate" text="Tak">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
@@ -43,7 +42,7 @@
       </HBox>
       <ProgressBar fx:id="progressBar" progress="0.0">
          <VBox.margin>
-            <Insets left="10.0" />
+            <Insets left="10.0" top="10.0" />
          </VBox.margin>
       </ProgressBar>
    </children>
