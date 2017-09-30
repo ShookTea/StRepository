@@ -15,7 +15,7 @@ import st.repo.Start;
 
 import java.io.IOException;
 
-public class MainWindowController {
+public class MainWindowController implements DefaultController {
 
     @FXML private ListView<Application> appList;
     @FXML private SplitPane splitPane;
@@ -28,6 +28,7 @@ public class MainWindowController {
 
     private ListProperty<Application> appListProperty = new SimpleListProperty<>();
 
+    @Override
     public void setStage(Stage stage) {
         this.stage = stage;
     }

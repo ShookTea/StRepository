@@ -10,7 +10,9 @@ import st.jargs.Flag;
 import st.jargs.FlagBuilder;
 import st.jargs.Parser;
 import st.jargs.WrongArgumentException;
+import st.repo.controller.DefaultController;
 import st.repo.controller.MainWindowController;
+import st.repo.controller.UpdateInfoController;
 import st.repo.reg.Registry;
 
 import java.io.File;
@@ -23,8 +25,8 @@ public class Start extends Application {
         else {
             MainWindowController.createRepository(false);
             st.repo.Application app = st.repo.Application.getAppByName(runInfo.appName);
+            showUpdateInfo(primaryStage);
             if (app.canBeUpdated.get()) {
-                showUpdateInfo(primaryStage);
             }
             else {
                 app.runApplication(runInfo.command);
@@ -36,21 +38,29 @@ public class Start extends Application {
         FXMLLoader loader = new FXMLLoader(Start.class.getResource("mainWindow.fxml"));
         VBox mainWindow = loader.load();
         MainWindowController controller = loader.getController();
-
-        controller.setStage(primaryStage);
         Scene scene = new Scene(mainWindow);
 
+        show(controller, scene, "StRepository", primaryStage);
+    }
+
+    private void showUpdateInfo(Stage primaryStage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(Start.class.getResource("updateInfo.fxml"));
+        VBox mainWindow = loader.load();
+        UpdateInfoController controller = loader.getController();
+        Scene scene = new Scene(mainWindow);
+
+        show(controller, scene, "Informacja o aktualizacji - StRepository", primaryStage);
+    }
+
+    private void show(DefaultController dc, Scene scene, String title, Stage primaryStage) {
+        dc.setStage(primaryStage);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("StRepository");
+        primaryStage.setTitle(title);
         primaryStage.setOnCloseRequest(e -> {
             primaryStage.close();
             System.exit(0);
         });
         primaryStage.show();
-    }
-
-    private void showUpdateInfo(Stage primaryStage) throws Exception {
-
     }
 
     public static void main(String[] args) {
