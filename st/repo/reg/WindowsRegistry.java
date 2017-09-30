@@ -85,7 +85,7 @@ public class WindowsRegistry extends Registry {
         if (javawPath == null) {
             Map<String, String> envVar = System.getenv();
             System.getenv().entrySet().stream().forEach(WindowsRegistry::checkEnvKey);
-            String[] parts = envVar.get(pathEnvKey).split(";");
+            String[] parts = envVar.getOrDefault(pathEnvKey, "").split(";");
             String path = findJavapath(parts);
             File mainPath = new File(path);
             javawPath = new File(mainPath, "javaw.exe");
