@@ -1,6 +1,8 @@
 package st.repo.reg;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Scanner;
 
 public class WindowsRegistry extends Registry {
@@ -70,6 +72,7 @@ public class WindowsRegistry extends Registry {
             while (err.hasNextLine()) {
                 code += err.nextLine();
             }
+            err.close();
             code = code.trim();
             return code.isEmpty();
         } catch (IOException e) {
@@ -77,4 +80,33 @@ public class WindowsRegistry extends Registry {
             return false;
         }
     }
+
+    private static File getJavawPath() {
+        if (javawPath == null) {
+            Map<String, String> envVar = System.getenv();
+            System.getenv().entrySet().stream().forEach(WindowsRegistry::checkEnvKey);
+            String[] parts = envVar.get(pathEnvKey).split(";");
+            String path = findJavapath(parts);
+            File mainPath = new File(path);
+            javawPath = new File(mainPath, "javaw.exe");
+        }
+        return javawPath;
+    }
+
+    private static String findJavapath(String[] parts) {
+        for (String part : parts) {
+            if (part.toUpperCase().contains("JAVAPATH")) return part.trim();
+        }
+        return null;
+    }
+
+    private static void checkEnvKey(Map.Entry<String, String> entry) {
+        String key = entry.getKey();
+        if (key.toUpperCase().equals("PATH")) {
+            pathEnvKey = key;
+        }
+    }
+
+    private static File javawPath = null;
+    private static String pathEnvKey = "";
 }
