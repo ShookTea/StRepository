@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import st.repo.Application;
+import st.repo.RunInfo;
 import st.repo.task.TaskRunner;
 
 public class UpdateInfoController implements DefaultController {
@@ -23,6 +24,7 @@ public class UpdateInfoController implements DefaultController {
 
     private Stage stage;
     private Application app = null;
+    private RunInfo runInfo;
     @Override
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -31,6 +33,10 @@ public class UpdateInfoController implements DefaultController {
     public void setApplication(Application app) {
         this.app = app;
         appName.textProperty().bind(new SimpleStringProperty("Program ").concat(app.title).concat(" ma nową wersję."));
+    }
+
+    public void setRunInfo(RunInfo runInfo) {
+        this.runInfo = runInfo;
     }
 
     @FXML
@@ -52,6 +58,7 @@ public class UpdateInfoController implements DefaultController {
     @FXML
     private void runApplication(ActionEvent event) {
         if (app == null) return;
+        app.runApplication(runInfo.command);
         dispose();
     }
 

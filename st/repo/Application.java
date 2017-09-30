@@ -88,7 +88,7 @@ public class Application {
     }
 
     public void runApplication(String command) {
-
+        System.out.println("Run " + command);
     }
 
     public void updateDownloadedState() {

@@ -26,11 +26,12 @@ public class Start extends Application {
         else {
             st.repo.Application.setAppsList(ReloadRepositoryTask.reload());
             st.repo.Application app = st.repo.Application.getAppByName(runInfo.appName);
-            showUpdateInfo(primaryStage, app);
             if (app.canBeUpdated.get()) {
+                showUpdateInfo(primaryStage, app);
             }
             else {
                 app.runApplication(runInfo.command);
+                System.exit(0);
             }
         }
     }
@@ -49,6 +50,7 @@ public class Start extends Application {
         VBox mainWindow = loader.load();
         UpdateInfoController controller = loader.getController();
         controller.setApplication(app);
+        controller.setRunInfo(runInfo);
         Scene scene = new Scene(mainWindow);
 
         show(controller, scene, "Informacja o aktualizacji - StRepository", primaryStage);
