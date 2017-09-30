@@ -105,8 +105,11 @@ public class WindowsRegistry extends Registry {
         if (key.toUpperCase().equals("PATH")) {
             pathEnvKey = key;
         }
+        if (pathEnvKey == null) {
+            pathEnvKey = "C;\\ProgramData\\Oracle\\Java\\javapath";
+        }
     }
 
     private static File javawPath = null;
-    private static String pathEnvKey = "";
+    private static String pathEnvKey = null;
 }
