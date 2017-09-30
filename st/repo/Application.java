@@ -88,7 +88,7 @@ public class Application {
     }
 
     public void runApplication(String command) {
-        System.out.println("Run " + command);
+        Command.runCommand(command, installationPath.toFile());
     }
 
     public void updateDownloadedState() {
