@@ -46,7 +46,9 @@ public class Application {
         this.runningCommand = runningCommand.split(";");
         this.extensions = extensions;
 
-        installationPath = Paths.get("apps/" + title).toAbsolutePath();
+        installationPath = Start.getJarFile().isDirectory() ?
+                Paths.get("apps/" + title).toAbsolutePath() :
+                new File(Start.getJarFile().getParentFile(), "apps/" + title).toPath();
         isDownloaded = new SimpleBooleanProperty();
         updateDownloadedState();
         canBeUpdated = new SimpleBooleanProperty();

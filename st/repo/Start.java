@@ -16,7 +16,7 @@ import st.repo.controller.UpdateInfoController;
 import st.repo.reg.Registry;
 import st.repo.task.ReloadRepositoryTask;
 
-import java.io.File;
+import java.io.*;
 import java.net.URISyntaxException;
 
 public class Start extends Application {
