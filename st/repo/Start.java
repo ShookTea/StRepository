@@ -1,6 +1,8 @@
 package st.repo;
 
 import javafx.application.Application;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
@@ -12,8 +14,10 @@ import st.jargs.Parser;
 import st.jargs.WrongArgumentException;
 import st.repo.controller.DefaultController;
 import st.repo.controller.MainWindowController;
+import st.repo.controller.ReloadRepositoryController;
 import st.repo.controller.UpdateInfoController;
 import st.repo.reg.Registry;
+import st.repo.task.ReloadRepositoryTask;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -23,9 +27,9 @@ public class Start extends Application {
     public void start(Stage primaryStage) throws Exception {
         if (runInfo.isRunDefault()) runRepository(primaryStage);
         else {
-            MainWindowController.createRepository(false);
+            st.repo.Application.setAppsList(ReloadRepositoryTask.reload());
             st.repo.Application app = st.repo.Application.getAppByName(runInfo.appName);
-            showUpdateInfo(primaryStage);
+            showUpdateInfo(primaryStage, app);
             if (app.canBeUpdated.get()) {
             }
             else {
@@ -43,10 +47,11 @@ public class Start extends Application {
         show(controller, scene, "StRepository", primaryStage);
     }
 
-    private void showUpdateInfo(Stage primaryStage) throws Exception {
+    private void showUpdateInfo(Stage primaryStage, st.repo.Application app) throws Exception {
         FXMLLoader loader = new FXMLLoader(Start.class.getResource("updateInfo.fxml"));
         VBox mainWindow = loader.load();
         UpdateInfoController controller = loader.getController();
+        controller.setApplication(app);
         Scene scene = new Scene(mainWindow);
 
         show(controller, scene, "Informacja o aktualizacji - StRepository", primaryStage);

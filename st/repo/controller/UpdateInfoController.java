@@ -27,7 +27,6 @@ public class UpdateInfoController implements DefaultController {
 
     public void setApplication(Application app) {
         this.app = app;
-        System.out.println(app.isLocked);
         appName.textProperty().bind(new SimpleStringProperty("Program ").concat(app.title).concat(" ma nową wersję."));
     }
 

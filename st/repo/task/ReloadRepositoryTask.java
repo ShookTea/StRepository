@@ -154,4 +154,9 @@ public class ReloadRepositoryTask extends Task<List<Application>> {
         }
         return installationCommands;
     }
+
+    public static List<Application> reload() throws Exception {
+        ReloadRepositoryTask t = new ReloadRepositoryTask();
+        return t.call();
+    }
 }
