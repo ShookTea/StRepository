@@ -20,7 +20,16 @@ public class Start extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         if (runInfo.isRunDefault()) runRepository(primaryStage);
-
+        else {
+            MainWindowController.createRepository(false);
+            st.repo.Application app = st.repo.Application.getAppByName(runInfo.appName);
+            if (app.canBeUpdated.get()) {
+                showUpdateInfo(primaryStage);
+            }
+            else {
+                app.runApplication(runInfo.command);
+            }
+        }
     }
 
     private void runRepository(Stage primaryStage) throws Exception {
@@ -38,6 +47,10 @@ public class Start extends Application {
             System.exit(0);
         });
         primaryStage.show();
+    }
+
+    private void showUpdateInfo(Stage primaryStage) throws Exception {
+
     }
 
     public static void main(String[] args) {

@@ -87,6 +87,10 @@ public class Application {
         }
     }
 
+    public void runApplication(String command) {
+
+    }
+
     public void updateDownloadedState() {
         isDownloaded.set(installationPath.toFile().exists());
     }
@@ -104,6 +108,15 @@ public class Application {
 
     public static ListProperty<Application> getAppsList() {
         return list;
+    }
+
+    public static Application getAppByName(String name) {
+        for (Application app : list) {
+            if (app.title.get().equals(name)) {
+                return app;
+            }
+        }
+        return NULL_APP;
     }
 
     public static void setAppsList(List<Application> apps) {
