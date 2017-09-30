@@ -118,8 +118,8 @@ public class ReloadRepositoryTask extends Task<List<Application>> {
         String extension = (String)jsonObject.get("extension");
         String name = (String)jsonObject.getOrDefault("name", "Plik programu " + appName);
         String action = (String)jsonObject.get("runCommand");
-        File runFile = Start.getJarFile();
-        action = "" + runFile.toString() + " \\\"-a " + appName + " -r " + action + "\\\"";
+        action = action.replace("\"", "\\\"");
+        action = "-a " + appName + " -r \"" + action + "\"";
         return new Extension(extension, name, action, appName);
     }
 
