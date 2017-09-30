@@ -1,6 +1,7 @@
 package st.repo.controller;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import st.repo.Application;
+import st.repo.task.TaskRunner;
 
 public class UpdateInfoController implements DefaultController {
 
@@ -20,7 +22,7 @@ public class UpdateInfoController implements DefaultController {
     @FXML private VBox root;
 
     private Stage stage;
-    private Application app;
+    private Application app = null;
     @Override
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -41,12 +43,15 @@ public class UpdateInfoController implements DefaultController {
 
     @FXML
     private void installUpdate(ActionEvent event) {
-
+        if (app == null) return;
+        Task remove = app.createRemoveTask();
+        Task install = app.createDownloadTask();
+        TaskRunner.runTask(this, app, remove, install);
     }
 
     @FXML
     private void runApplication(ActionEvent event) {
-
+        if (app == null) return;
     }
 
     @Override
