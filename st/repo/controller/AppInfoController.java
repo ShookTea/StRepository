@@ -13,6 +13,7 @@ import javafx.scene.web.WebView;
 import st.repo.Application;
 import st.repo.Link;
 import st.repo.Start;
+import st.repo.task.TaskRunner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -109,13 +110,13 @@ public class AppInfoController {
     @FXML
     private void downloadApp() {
         Task task = currentApp.get().createDownloadTask();
-        runTask(task);
+        TaskRunner.runTask(windowController, currentApp.get(), task);
     }
 
     @FXML
     private void removeApp() {
         Task task = currentApp.get().createRemoveTask();
-        runTask(task);
+        TaskRunner.runTask(windowController, currentApp.get(), task);
     }
 
     @FXML
@@ -132,35 +133,6 @@ public class AppInfoController {
     private void updateApp() {
         Task remove = currentApp.get().createRemoveTask();
         Task download = currentApp.get().createDownloadTask();
-        runTask(remove, download);
-    }
-
-    private void runTask(Task... tasks) {
-        ArrayList<Task> taskList = new ArrayList<>();
-        taskList.addAll(Arrays.asList(tasks));
-        runTask(taskList);
-    }
-
-    private void runTask(List<Task> taskList) {
-        Task currentTask = taskList.remove(0);
-        currentTask.setOnRunning(e -> {
-            windowController.setDisable(true);
-            windowController.progressBar.progressProperty().bind(currentTask.progressProperty());
-        });
-        currentTask.setOnSucceeded(e -> {
-            windowController.progressBar.progressProperty().unbind();
-            windowController.progressBar.setProgress(0.0);
-            currentApp.get().updateStatus();
-            if (taskList.size() > 0) {
-                runTask(taskList);
-            }
-            else {
-                windowController.setDisable(false);
-            }
-        });
-        currentTask.setOnFailed(e -> {
-            System.exit(1);
-        });
-        new Thread(currentTask).start();
+        TaskRunner.runTask(windowController, currentApp.get(), remove, download);
     }
 }

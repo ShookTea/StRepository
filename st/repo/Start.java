@@ -1,8 +1,6 @@
 package st.repo;
 
 import javafx.application.Application;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
@@ -14,7 +12,6 @@ import st.jargs.Parser;
 import st.jargs.WrongArgumentException;
 import st.repo.controller.DefaultController;
 import st.repo.controller.MainWindowController;
-import st.repo.controller.ReloadRepositoryController;
 import st.repo.controller.UpdateInfoController;
 import st.repo.reg.Registry;
 import st.repo.task.ReloadRepositoryTask;

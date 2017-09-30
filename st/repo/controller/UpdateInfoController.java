@@ -3,11 +3,11 @@ package st.repo.controller;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import st.repo.Application;
 
@@ -17,6 +17,7 @@ public class UpdateInfoController implements DefaultController {
     @FXML private Button yesButton;
     @FXML private Button noButton;
     @FXML private ProgressBar progressBar;
+    @FXML private VBox root;
 
     private Stage stage;
     private Application app;
@@ -39,13 +40,23 @@ public class UpdateInfoController implements DefaultController {
     }
 
     @FXML
-    void installUpdate(ActionEvent event) {
+    private void installUpdate(ActionEvent event) {
 
     }
 
     @FXML
-    void runApplication(ActionEvent event) {
+    private void runApplication(ActionEvent event) {
 
+    }
+
+    @Override
+    public VBox getRoot() {
+        return root;
+    }
+
+    @Override
+    public ProgressBar getProgressBar() {
+        return progressBar;
     }
 
 }

@@ -87,9 +87,9 @@ public class MainWindowController implements DefaultController {
     }
 
     private void createRepositoryUpdater(boolean asNewThread) {
-        setDisable(true);
+        getRoot().setDisable(true);
         createRepository(asNewThread);
-        setDisable(false);
+        getRoot().setDisable(false);
     }
 
     public static void createRepository(boolean asNewThread) {
@@ -105,7 +105,13 @@ public class MainWindowController implements DefaultController {
         }
     }
 
-    public void setDisable(boolean disable) {
-        root.setDisable(disable);
+    @Override
+    public VBox getRoot() {
+        return root;
+    }
+
+    @Override
+    public ProgressBar getProgressBar() {
+        return progressBar;
     }
 }
