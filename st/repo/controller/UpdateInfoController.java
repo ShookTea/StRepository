@@ -52,7 +52,7 @@ public class UpdateInfoController implements DefaultController {
         if (app == null) return;
         Task remove = app.createRemoveTask();
         Task install = app.createDownloadTask();
-        TaskRunner.runTask(true, this, app, remove, install);
+        TaskRunner.runTask(true, () -> {app.runApplication(runInfo.command);}, this, app, remove, install);
     }
 
     @FXML

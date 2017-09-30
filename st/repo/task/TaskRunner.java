@@ -9,17 +9,17 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TaskRunner {
-    public static void runTask(boolean disposeAtEnd, DefaultController contr, Application app, Task... tasks) {
+    public static void runTask(boolean disposeAtEnd, Runnable runAtEnd, DefaultController contr, Application app, Task... tasks) {
         ArrayList<Task> taskList = new ArrayList<>();
         taskList.addAll(Arrays.asList(tasks));
-        runTask(disposeAtEnd, taskList, contr, app);
+        runTask(disposeAtEnd, runAtEnd, taskList, contr, app);
     }
 
     public static void runTask(DefaultController contr, Application app, Task... tasks) {
-        runTask(false, contr, app, tasks);
+        runTask(false, () -> {}, contr, app, tasks);
     }
 
-    private static void runTask(boolean disposeAtEnd, List<Task> taskList, DefaultController windowController, Application app) {
+    private static void runTask(boolean disposeAtEnd, Runnable runAtEnd, List<Task> taskList, DefaultController windowController, Application app) {
         Task currentTask = taskList.remove(0);
         currentTask.setOnRunning(e -> {
             windowController.getRoot().setDisable(true);
@@ -30,11 +30,14 @@ public class TaskRunner {
             windowController.getProgressBar().setProgress(0.0);
             app.updateStatus();
             if (taskList.size() > 0) {
-                runTask(disposeAtEnd, taskList, windowController, app);
+                runTask(disposeAtEnd, runAtEnd, taskList, windowController, app);
             }
             else {
                 windowController.getRoot().setDisable(false);
-                if (disposeAtEnd) windowController.dispose();
+                if (disposeAtEnd) {
+                    windowController.dispose();
+                    runAtEnd.run();
+                }
             }
         });
         currentTask.setOnFailed(e -> {
