@@ -10,7 +10,7 @@ public class Extension {
         this.extension = "." + extension;
         this.displayName = displayName;
         this.action = action;
-        this.registerName = "strep." + appName.replace(" ", "_") + "." + extension;
+        this.registerName = "strep_" + appName.replace(" ", "_") + "." + extension;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package st.repo.reg;
 
+import st.repo.Start;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
@@ -23,7 +25,7 @@ public class WindowsRegistry extends Registry {
 
     @Override
     protected boolean createExtensionForAdmin(Extension ext) {
-        return create("HKLM\\SOFTWARE\\Classes", ext);
+        return create("HKCU\\SOFTWARE\\Classes", ext);
     }
 
     @Override
@@ -33,17 +35,27 @@ public class WindowsRegistry extends Registry {
 
     @Override
     protected boolean removeExtensionForAdmin(Extension ext) {
-        return remove("HKLM\\SOFTWARE\\Classes", ext);
+        return remove("HKCU\\SOFTWARE\\Classes", ext);
     }
 
     private boolean create(String key, Extension ext) {
         String keyNameExt = key + "\\" + ext.extension;
         String keyNameVal = key + "\\" + ext.registerName;
+        File javaw = getJavawPath();
+        File stRep = Start.getJarFile();
+        String action = "\"" + javaw.getPath() + "\"";
+        if (stRep.isDirectory()) {
+            action = action + " -classpath \"" + stRep.getPath() + "\" \"st.repo.Start\"";
+        }
+        else {
+            action = action + " -jar \"" + stRep.getPath() + "\"";
+        }
+        action = action + " " + ext.action;
 
         return runCommands(
                 "REG ADD " + keyNameExt + " /ve /d " + ext.registerName + " /f",
                 "REG ADD " + keyNameVal + " /ve /d \"" + ext.displayName + "\" /f",
-                "REG ADD " + keyNameVal + "\\shell\\open\\command /ve /d \"" + ext.action + "\" /f"
+                "REG ADD " + keyNameVal + "\\shell\\open\\command /ve /d \"" + action.replace("\"", "\\\"").replace("^\\\"", "^\"") + "\" /f"
         );
     }
 
