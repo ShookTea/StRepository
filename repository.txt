@@ -4,4 +4,4 @@
 # Puste linie i spacje przed/po linku są ignorowane.
 # ================================================================================
 # Repozytorium testowe
-https://raw.githubusercontent.com/ShookTea/StRepository/master/test.strep
+https://raw.githubusercontent.com/ShookTea/Finanse/master/src/test.strep
