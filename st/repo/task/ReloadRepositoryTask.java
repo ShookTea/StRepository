@@ -1,5 +1,6 @@
 package st.repo.task;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import javafx.concurrent.Task;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class ReloadRepositoryTask extends Task<List<Application>> {
@@ -24,6 +26,14 @@ public class ReloadRepositoryTask extends Task<List<Application>> {
         updateMessage("Wczytywanie repozytorium...");
         updateProgress(-1, -1);
 
+        try {
+            return getOnlineApplications();
+        } catch (IOException ex) {
+            return getOfflineApplications();
+        }
+    }
+
+    private List<Application> getOnlineApplications() throws IOException {
         URL repositoryList = new URL("https://raw.githubusercontent.com/ShookTea/StRepository/master/repository.txt");
         List<URL> urls = loadRepositoryURLs(repositoryList);
         int appsCount = urls.size();
@@ -41,6 +51,26 @@ public class ReloadRepositoryTask extends Task<List<Application>> {
         return applications;
     }
 
+    private List<Application> getOfflineApplications() throws IOException {
+        File installationPath = Start.getJarFile().isDirectory() ?
+                Paths.get("apps/").toFile() :
+                new File(Start.getJarFile().getParentFile(), "apps/");
+        File[] strepFiles = installationPath.listFiles(file ->
+           file.isFile() && file.getName().toLowerCase().endsWith(".strep")
+        );
+        List<Application> applications = new ArrayList<>();
+        for (File strepFile : strepFiles) {
+            String appName = strepFile.getName();
+            appName = appName.substring(0, appName.length() - 6);
+            File appFolder = new File(strepFile.getParent(), appName);
+            if (appFolder.exists() && appFolder.isDirectory()) {
+                applications.add(loadApplicationFromFile(strepFile));
+            }
+        }
+        applications.removeIf(Objects::isNull);
+        return applications;
+    }
+
     private List<URL> loadRepositoryURLs(URL repoList) throws IOException {
         List<URL> ret = new ArrayList<>();
         String[] repo = loadFile(repoList).split("\n");
@@ -54,19 +84,41 @@ public class ReloadRepositoryTask extends Task<List<Application>> {
     }
 
     private String loadFile(URL url) throws IOException {
-        InputStream is = url.openStream();
-        Scanner sc = new Scanner(is);
-        StringBuilder file = new StringBuilder();
-        while (sc.hasNextLine()) {
-            file.append(sc.nextLine()).append("\n");
+        try {
+            InputStream is = url.openStream();
+            Scanner sc = new Scanner(is);
+            StringBuilder file = new StringBuilder();
+            while (sc.hasNextLine()) {
+                file.append(sc.nextLine()).append("\n");
+            }
+            sc.close();
+            is.close();
+            return file.toString();
+        } catch (IOException ex) {
+            return "";
         }
-        sc.close();
-        is.close();
-        return file.toString();
     }
 
     private Application loadApplicationFromURL(URL jsonUrl) throws IOException {
         String jsonFile = loadFile(jsonUrl);
+        return parseJSON(jsonFile, jsonUrl);
+    }
+
+    private Application loadApplicationFromFile(File strepFile) throws IOException {
+        Scanner sc = new Scanner(strepFile);
+        String json = "";
+        while (sc.hasNextLine()) {
+            json += sc.nextLine() + "\n";
+        }
+        try {
+            return parseJSON(json, null);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    private Application parseJSON(String jsonFile, URL jsonUrl) throws IOException {
         JSONParser parser = new JSONParser();
         JSONObject root;
         try {
